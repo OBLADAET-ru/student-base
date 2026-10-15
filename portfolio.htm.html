@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#e8384f">
+  <title>Платонов Виктор Артурович — Староста года | Портфолио</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --red: #e8384f;
+      --red-deep: #c81e3c;
+      --orange: #ff5c2b;
+      --orange-soft: #ff8b3d;
+      --pink: #ff4d6d;
+      --white: #ffffff;
+      --cream: #fdf5f3;
+      --dark: #1a0a0e;
+      --gray-light: rgba(255, 255, 255, 0.85);
+      --gray-soft: rgba(255, 255, 255, 0.6);
+
+      --section-gap: clamp(50px, 8vw, 90px);
+      --container-pad: clamp(20px, 5vw, 40px);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', -apple-system, sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    img, svg { max-width: 100%; height: auto; display: block; }
+
+    /* ===================== ХЕДЕР ===================== */
+    .hero {
+      background: var(--red);
+      color: var(--white);
+      padding: clamp(50px, 10vw, 80px) var(--container-pad) clamp(70px, 12vw, 100px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero .shape {
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .hero .shape-1 {
+      width: clamp(60px, 10vw, 120px);
+      height: clamp(60px, 10vw, 120px);
+      background: var(--orange);
+      transform: rotate(15deg);
+      top: 60px;
+      left: 8%;
+      border-radius: 6px;
+      opacity: 0.95;
+    }
+
+    .hero .shape-2 {
+      width: clamp(45px, 8vw, 90px);
+      height: clamp(45px, 8vw, 90px);
+      background: var(--orange-soft);
+      transform: rotate(-12deg);
+      top: 100px;
+      right: 12%;
+      border-radius: 6px;
+      opacity: 0.9;
+    }
+
+    .hero .shape-arch {
+      width: clamp(140px, 20vw, 240px);
+      height: clamp(70px, 10vw, 120px);
+      background: var(--pink);
+      border-radius: 240px 240px 0 0;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0.95;
+    }
+
+    .hero .shape-burst {
+      position: absolute;
+      bottom: 40px;
+      right: 6%;
+      width: clamp(80px, 14vw, 160px);
+      height: clamp(80px, 14vw, 160px);
+      opacity: 0.9;
+    }
+
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding-top: clamp(30px, 6vw, 60px);
+    }
+
+    .hero .contest-badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.15);
+      border: 2px solid var(--white);
+      color: var(--white);
+      padding: clamp(6px, 1vw, 8px) clamp(16px, 3vw, 24px);
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: clamp(0.68rem, 1.6vw, 0.85rem);
+      letter-spacing: clamp(1.5px, 0.4vw, 3px);
+      text-transform: uppercase;
+      margin-bottom: clamp(25px, 4vw, 40px);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 8vw, 6rem);
+      font-weight: 900;
+      line-height: 1.02;
+      letter-spacing: -1px;
+      margin-bottom: clamp(18px, 3vw, 25px);
+      text-transform: uppercase;
+    }
+
+    .hero h1 .highlight {
+      display: inline-block;
+      background: var(--white);
+      color: var(--red);
+      padding: 4px clamp(14px, 2vw, 24px);
+      border-radius: 6px;
+      transform: rotate(-1deg);
+    }
+
+    .hero .hero-sub {
+      font-size: clamp(0.95rem, 2vw, 1.4rem);
+      color: rgba(255, 255, 255, 0.95);
+      max-width: 720px;
+      margin: 0 auto clamp(25px, 4vw, 40px);
+      line-height: 1.5;
+      font-weight: 500;
+      padding: 0 10px;
+    }
+
+    .hero .hero-meta {
+      display: inline-flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(8px, 1.5vw, 12px);
+      margin-top: 20px;
+    }
+
+    .hero .hero-meta span {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      padding: clamp(7px, 1vw, 10px) clamp(14px, 2vw, 22px);
+      border-radius: 50px;
+      font-size: clamp(0.75rem, 1.5vw, 0.9rem);
+      font-weight: 700;
+      letter-spacing: 1px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      white-space: nowrap;
+    }
+
+    /* ===================== ОСНОВНОЙ КОНТЕНТ ===================== */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: clamp(50px, 8vw, 80px) var(--container-pad);
+    }
+
+    section { margin-bottom: var(--section-gap); }
+
+    h2 {
+      font-size: clamp(1.35rem, 4vw, 2.4rem);
+      font-weight: 900;
+      letter-spacing: -0.8px;
+      margin-bottom: clamp(10px, 1.5vw, 12px);
+      color: var(--dark);
+      text-transform: uppercase;
+      line-height: 1.15;
+    }
+
+    h2 .h2-accent {
+      display: inline-block;
+      background: var(--red);
+      color: var(--white);
+      padding: 2px clamp(10px, 1.5vw, 14px);
+      border-radius: 4px;
+      transform: rotate(-1deg);
+    }
+
+    .section-lead {
+      font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+      color: #6b4a52;
+      margin-bottom: clamp(25px, 4vw, 40px);
+      max-width: 700px;
+      line-height: 1.6;
+    }
+
+    /* ===================== БЛОК О СЕБЕ ===================== */
+    .about {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+      gap: clamp(16px, 2vw, 30px);
+    }
+
+    .about-card {
+      background: var(--white);
+      border-radius: clamp(16px, 2vw, 20px);
+      padding: clamp(24px, 3vw, 35px);
+      box-shadow: 0 8px 30px rgba(232, 56, 79, 0.08);
+      border: 2px solid rgba(232, 56, 79, 0.08);
+      transition: all 0.3s;
+    }
+
+    .about-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 40px rgba(232, 56, 79, 0.15);
+      border-color: rgba(232, 56, 79, 0.2);
+    }
+
+    .about-card .icon-box {
+      width: clamp(50px, 7vw, 60px);
+      height: clamp(50px, 7vw, 60px);
+      background: var(--red);
+      color: var(--white);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: clamp(16px, 2vw, 20px);
+      transform: rotate(-3deg);
+    }
+
+    .about-card .icon-box.orange { background: var(--orange); transform: rotate(3deg); }
+    .about-card .icon-box.pink { background: var(--pink); transform: rotate(-2deg); }
+    .about-card .icon-box.dark { background: var(--dark); transform: rotate(2deg); }
+
+    .about-card .icon-box svg {
+      width: clamp(24px, 4vw, 30px);
+      height: clamp(24px, 4vw, 30px);
+      stroke: var(--white);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .about-card h3 {
+      font-size: clamp(1.05rem, 2vw, 1.3rem);
+      font-weight: 800;
+      margin-bottom: 12px;
+      color: var(--dark);
+      text-transform: uppercase;
+      letter-spacing: -0.3px;
+      line-height: 1.3;
+    }
+
+    .about-card p {
+      font-size: clamp(0.9rem, 1.6vw, 1rem);
+      line-height: 1.6;
+      color: #6b4a52;
+    }
+
+    /* ===================== ДОСТИЖЕНИЯ ===================== */
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
+      gap: clamp(14px, 2vw, 22px);
+    }
+
+    .ach-card {
+      background: var(--white);
+      border-radius: clamp(14px, 2vw, 18px);
+      padding: clamp(20px, 3vw, 28px);
+      position: relative;
+      overflow: hidden;
+      border: 2px solid rgba(232, 56, 79, 0.08);
+      box-shadow: 0 6px 20px rgba(232, 56, 79, 0.06);
+      transition: all 0.35s;
+    }
+
+    .ach-card::before {
+      content: "";
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 100px;
+      height: 100px;
+      background: var(--orange);
+      border-radius: 50%;
+      opacity: 0.08;
+      transition: all 0.4s;
+    }
+
+    .ach-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--red);
+      box-shadow: 0 15px 40px rgba(232, 56, 79, 0.18);
+    }
+
+    .ach-card:hover::before {
+      opacity: 0.15;
+      transform: scale(1.3);
+    }
+
+    .ach-card .ach-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: clamp(12px, 1.5vw, 15px);
+      position: relative;
+      z-index: 1;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .ach-card .ach-date {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: clamp(0.68rem, 1.4vw, 0.78rem);
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: var(--red);
+      text-transform: uppercase;
+    }
+
+    .ach-card .ach-date svg {
+      width: 14px;
+      height: 14px;
+      stroke: var(--red);
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .ach-card .ach-level {
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 50px;
+      background: rgba(232, 56, 79, 0.1);
+      color: var(--red);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+
+    .ach-card .ach-level.orange {
+      background: rgba(255, 92, 43, 0.12);
+      color: var(--orange);
+    }
+
+    .ach-card .ach-level.dark {
+      background: rgba(26, 10, 14, 0.08);
+      color: var(--dark);
+    }
+
+    .ach-card h3 {
+      font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+      font-weight: 800;
+      line-height: 1.35;
+      margin-bottom: 12px;
+      color: var(--dark);
+      position: relative;
+      z-index: 1;
+    }
+
+    .ach-card .ach-result {
+      font-size: clamp(0.82rem, 1.5vw, 0.9rem);
+      color: #6b4a52;
+      line-height: 1.5;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .ach-card .ach-result svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--red);
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .ach-card .ach-result strong {
+      color: var(--red);
+      font-weight: 800;
+    }
+
+    /* ===================== ПРОЕКТ ===================== */
+    .project-block {
+      background: var(--red);
+      color: var(--white);
+      border-radius: clamp(18px, 2vw, 24px);
+      padding: clamp(35px, 6vw, 60px) clamp(24px, 4vw, 50px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-block::before {
+      content: "";
+      position: absolute;
+      bottom: -100px;
+      right: -100px;
+      width: clamp(200px, 30vw, 340px);
+      height: clamp(200px, 30vw, 340px);
+      background: var(--orange);
+      border-radius: 50%;
+      opacity: 0.4;
+      filter: blur(60px);
+    }
+
+    .project-block::after {
+      content: "";
+      position: absolute;
+      top: -80px;
+      left: -80px;
+      width: clamp(180px, 25vw, 280px);
+      height: clamp(180px, 25vw, 280px);
+      background: var(--pink);
+      border-radius: 50%;
+      opacity: 0.35;
+      filter: blur(60px);
+    }
+
+    .project-block .project-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .project-block .project-label {
+      display: inline-block;
+      background: var(--white);
+      color: var(--red);
+      padding: 6px clamp(14px, 2vw, 18px);
+      border-radius: 50px;
+      font-size: clamp(0.65rem, 1.2vw, 0.75rem);
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: clamp(20px, 3vw, 25px);
+    }
+
+    .project-block h2 {
+      color: var(--white);
+      font-size: clamp(1.6rem, 5vw, 3rem);
+      margin-bottom: clamp(15px, 2vw, 20px);
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+
+    .project-block h2 .h2-accent {
+      background: var(--white);
+      color: var(--red);
+    }
+
+    .project-block .project-desc {
+      font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+      line-height: 1.6;
+      max-width: 720px;
+      margin-bottom: clamp(22px, 3vw, 30px);
+      color: rgba(255, 255, 255, 0.95);
+    }
+
+    .project-block .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: clamp(7px, 1vw, 10px);
+      margin-bottom: clamp(25px, 4vw, 35px);
+    }
+
+    .project-block .project-tags span {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1.5px solid rgba(255, 255, 255, 0.5);
+      padding: 6px clamp(12px, 1.5vw, 16px);
+      border-radius: 50px;
+      font-size: clamp(0.72rem, 1.4vw, 0.85rem);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.5px;
+    }
+
+    .project-block .project-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: clamp(10px, 1.5vw, 14px);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: clamp(12px, 1.5vw, 14px) clamp(20px, 3vw, 32px);
+      border-radius: 10px;
+      font-size: clamp(0.82rem, 1.5vw, 0.95rem);
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: all 0.3s;
+      border: 2px solid transparent;
+      cursor: pointer;
+      font-family: inherit;
+      min-height: 48px;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .btn-white {
+      background: var(--white);
+      color: var(--red);
+    }
+
+    .btn-white:hover {
+      background: var(--orange);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline-white {
+      background: transparent;
+      color: var(--white);
+      border-color: var(--white);
+    }
+
+    .btn-outline-white:hover {
+      background: var(--white);
+      color: var(--red);
+      transform: translateY(-2px);
+    }
+
+    /* ===================== КОМАНДА ===================== */
+    .team-row {
+      display: flex;
+      align-items: center;
+      gap: clamp(20px, 3vw, 30px);
+      flex-wrap: wrap;
+      background: var(--white);
+      border-radius: clamp(16px, 2vw, 20px);
+      padding: clamp(24px, 4vw, 40px);
+      box-shadow: 0 8px 30px rgba(232, 56, 79, 0.08);
+    }
+
+    .art-logo {
+      display: flex;
+      align-items: center;
+      gap: clamp(8px, 1.5vw, 12px);
+      flex-shrink: 0;
+    }
+
+    .art-logo .dot {
+      width: clamp(38px, 6vw, 50px);
+      height: clamp(38px, 6vw, 50px);
+      background: var(--red);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .art-logo .letters {
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      font-weight: 900;
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: var(--dark);
+      letter-spacing: clamp(3px, 0.6vw, 5px);
+      line-height: 1;
+    }
+
+    .team-info {
+      flex: 1;
+      min-width: min(100%, 280px);
+    }
+
+    .team-info p {
+      font-size: clamp(0.9rem, 1.6vw, 1rem);
+      color: #6b4a52;
+      line-height: 1.6;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .team-info p svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--red);
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .team-info p:last-child { margin-bottom: 0; }
+
+    .team-info .role {
+      color: var(--red);
+      font-size: clamp(0.68rem, 1.4vw, 0.78rem);
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .team-info strong { color: var(--dark); font-weight: 800; }
+
+    /* ===================== ФИНАЛ ===================== */
+    .final-block {
+      background: var(--dark);
+      color: var(--white);
+      border-radius: clamp(18px, 2vw, 24px);
+      padding: clamp(45px, 7vw, 70px) clamp(22px, 4vw, 50px);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .final-block::before {
+      content: "";
+      position: absolute;
+      top: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: clamp(200px, 30vw, 300px);
+      height: clamp(100px, 15vw, 150px);
+      background: var(--red);
+      border-radius: 300px 300px 0 0;
+      opacity: 0.9;
+    }
+
+    .final-block .final-content {
+      position: relative;
+      z-index: 2;
+      padding-top: clamp(25px, 4vw, 40px);
+    }
+
+    .final-block h2 {
+      color: var(--white);
+      font-size: clamp(1.5rem, 5vw, 3.5rem);
+      margin-bottom: clamp(15px, 2vw, 20px);
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+
+    .final-block h2 .h2-accent {
+      background: var(--red);
+      color: var(--white);
+    }
+
+    .final-block p {
+      font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+      color: rgba(255, 255, 255, 0.85);
+      max-width: 700px;
+      margin: 0 auto clamp(20px, 3vw, 30px);
+      line-height: 1.6;
+    }
+
+    .final-block .quote {
+      font-size: clamp(1rem, 2.2vw, 1.3rem);
+      font-weight: 700;
+      color: var(--white);
+      max-width: 700px;
+      margin: clamp(20px, 3vw, 30px) auto 0;
+      line-height: 1.5;
+      font-style: italic;
+      position: relative;
+      padding: 0 clamp(10px, 2vw, 30px);
+    }
+
+    /* ===================== ФУТЕР ===================== */
+    footer {
+      text-align: center;
+      padding: clamp(35px, 5vw, 50px) var(--container-pad) clamp(45px, 6vw, 60px);
+      color: #6b4a52;
+      font-size: clamp(0.82rem, 1.5vw, 0.9rem);
+      border-top: 1px solid rgba(232, 56, 79, 0.1);
+    }
+
+    footer .footer-brand {
+      font-weight: 900;
+      font-size: clamp(1rem, 1.8vw, 1.15rem);
+      color: var(--dark);
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    footer .footer-brand .accent { color: var(--red); }
+
+    /* ===================== МОБИЛЬНЫЕ ОСОБЕННОСТИ ===================== */
+    @media (max-width: 480px) {
+      .hero .hero-meta span {
+        font-size: 0.7rem;
+        padding: 6px 12px;
+      }
+
+      .project-block .project-buttons {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .team-row {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      .ach-card .ach-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+    }
+
+    @media (hover: none) {
+      .about-card:hover,
+      .ach-card:hover,
+      .btn:hover {
+        transform: none;
+      }
+    }
+
+    @media (min-width: 1440px) {
+      main { max-width: 1300px; }
+      .hero-inner { max-width: 1300px; }
+    }
+
+    @media (min-width: 1920px) {
+      main { max-width: 1400px; }
+      .hero-inner { max-width: 1400px; }
+    }
+
+    @media print {
+      body { background: #fff; color: #000; }
+      .hero, .project-block, .final-block { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .about-card, .ach-card { break-inside: avoid; page-break-inside: avoid; }
+      section { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===================== ХЕДЕР ===================== -->
+<header class="hero">
+  <div class="shape shape-1"></div>
+  <div class="shape shape-2"></div>
+  <div class="shape shape-arch"></div>
+
+  <svg class="shape shape-burst" viewBox="0 0 100 100" fill="none">
+    <polygon points="50,5 60,35 90,25 70,50 95,65 62,65 65,95 50,75 35,95 38,65 5,65 30,50 10,25 40,35"
+             fill="#ffffff" opacity="0.9"/>
+    <polygon points="50,15 57,37 78,30 63,48 82,58 60,60 62,82 50,68 38,82 40,60 18,58 37,48 22,30 43,37"
+             fill="#ff5c2b"/>
+  </svg>
+
+  <div class="hero-inner">
+    <span class="contest-badge">Студент года · Староста года</span>
+    <h1>
+      Доверие.<br>
+      Порядок.<br>
+      <span class="highlight">Результат.</span>
+    </h1>
+    <p class="hero-sub">
+      Портфолио студента Колледжа «Царицыно».<br>
+      Староста группы, разработчик, программист, руководитель IT-команды ART.
+    </p>
+    <div class="hero-meta">
+      <span>Платонов Виктор Артурович</span>
+      <span>СПО · 1 курс</span>
+      <span>IT-команда ART</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== КОНТЕНТ ===================== -->
+<main>
+
+  <!-- О СЕБЕ -->
+  <section>
+    <h2>Кто <span class="h2-accent">я</span></h2>
+    <p class="section-lead">
+      Студент, староста, лидер. Совмещаю учёбу с волонтёрством,
+      патриотическими акциями и разработкой собственного проекта для студентов.
+    </p>
+
+    <div class="about">
+      <div class="about-card">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        </div>
+        <h3>Староста группы</h3>
+        <p>
+          Выстроил систему адаптации первокурсников, повысил посещаемость первых пар,
+          решаю конфликты внутри группы без привлечения администрации.
+        </p>
+      </div>
+      <div class="about-card">
+        <div class="icon-box orange">
+          <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <h3>Разработчик и программист</h3>
+        <p>
+          Руководитель IT-команды ART. Автор проекта STUDENT.BASE — единого
+          справочника по всем предметам и курсам для студентов.
+        </p>
+      </div>
+      <div class="about-card">
+        <div class="icon-box pink">
+          <svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+        </div>
+        <h3>Участник и победитель</h3>
+        <p>
+          Победитель и призёр городских и всероссийских конкурсов, активный
+          участник волонтёрских и патриотических акций.
+        </p>
+      </div>
+      <div class="about-card">
+        <div class="icon-box dark">
+          <svg viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+        </div>
+        <h3>Волонтёр</h3>
+        <p>
+          Волонтёрская деятельность в ГБОУ Школа имени Достоевского.
+          Помощь в организации школьных и городских мероприятий.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ДОСТИЖЕНИЯ -->
+  <section>
+    <h2>Мои <span class="h2-accent">достижения</span></h2>
+    <p class="section-lead">
+      Городской, всероссийский и образовательный уровни. Участие и победы в конкурсах, акциях и проектах.
+    </p>
+
+    <div class="achievements-grid">
+
+      <div class="ach-card">
+        <div class="ach-top">
+          <span class="ach-date">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Декабрь 2025
+          </span>
+          <span class="ach-level">Городской</span>
+        </div>
+        <h3>«История России в истории одной Иконы»</h3>
+        <p class="ach-result">
+          <svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+          <span><strong>Победитель / Призёр</strong><br>В рамках городского проекта «Духовное Наследие»</span>
+        </p>
+      </div>
+
+      <div class="ach-card">
+        <div class="ach-top">
+          <span class="ach-date">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Декабрь 2025
+          </span>
+          <span class="ach-level orange">Всероссийский</span>
+        </div>
+        <h3>Акция «Посылка Солдату»</h3>
+        <p class="ach-result">
+          <svg viewBox="0 0 24 24"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7Z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7Z"/></svg>
+          <span><strong>Участник</strong><br>Всероссийская патриотическая акция</span>
+        </p>
+      </div>
+
+      <div class="ach-card">
+        <div class="ach-top">
+          <span class="ach-date">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            2023
+          </span>
+          <span class="ach-level orange">Всероссийский</span>
+        </div>
+        <h3>Всероссийский кадетский диктант</h3>
+        <p class="ach-result">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
+          <span><strong>Участник</strong><br>Сертификат о принятии участия</span>
+        </p>
+      </div>
+
+      <div class="ach-card">
+        <div class="ach-top">
+          <span class="ach-date">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Декабрь 2025
+          </span>
+          <span class="ach-level">Городской</span>
+        </div>
+        <h3>«Московская городская Дума: прошлое и настоящее»</h3>
+        <p class="ach-result">
+          <svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/><path d="M9 9v.01"/><path d="M9 12v.01"/><path d="M9 15v.01"/><path d="M9 18v.01"/></svg>
+          <span><strong>Участник</strong><br>Познавательно-образовательный проект</span>
+        </p>
+      </div>
+
+      <div class="ach-card">
+        <div class="ach-top">
+          <span class="ach-date">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Октябрь 2025
+          </span>
+          <span class="ach-level orange">Всероссийский</span>
+        </div>
+        <h3>Акция «Книги Донбассу»</h3>
+        <p class="ach-result">
+          <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <span><strong>Участник</strong><br>Благодарность за активное участие</span>
+        </p>
+      </div>
+
+      <div class="ach-card">
+        <div class="ach-top">
+          <span class="ach-date">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Сентябрь 2026
+          </span>
+          <span class="ach-level dark">Организация</span>
+        </div>
+        <h3>Военные сборы</h3>
+        <p class="ach-result">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <span><strong>Участник</strong><br>07.09.2026 — 11.09.2026</span>
+        </p>
+      </div>
+
+      <div class="ach-card">
+        <div class="ach-top">
+          <span class="ach-date">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            2023 – 2024
+          </span>
+          <span class="ach-level dark">Организация</span>
+        </div>
+        <h3>Волонтёрская деятельность</h3>
+        <p class="ach-result">
+          <svg viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          <span><strong>Волонтёр</strong><br>ГБОУ Школа имени Достоевского. Грамота за активное участие</span>
+        </p>
+      </div>
+
+      <div class="ach-card">
+        <div class="ach-top">
+          <span class="ach-date">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Сентябрь 2025
+          </span>
+          <span class="ach-level dark">Организация</span>
+        </div>
+        <h3>День здоровья</h3>
+        <p class="ach-result">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <span><strong>Участник</strong><br>Общекомандный зачёт 1 курса, посвящённый 80-летию Великой Победы</span>
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ПРОЕКТ -->
+  <section>
+    <div class="project-block">
+      <div class="project-content">
+        <span class="project-label">Мой проект</span>
+        <h2>STUDENT<span class="h2-accent">.BASE</span></h2>
+        <p class="project-desc">
+          Единый справочник по всем предметам, темам и курсам для студентов.
+          Решает проблему разрозненности учебных материалов и экономит время
+          при подготовке к занятиям и экзаменам. Проект опубликован и работает.
+        </p>
+        <div class="project-tags">
+          <span>HTML5</span>
+          <span>CSS3</span>
+          <span>JavaScript</span>
+          <span>GitHub Pages</span>
+          <span>IT-команда ART</span>
+        </div>
+        <div class="project-buttons">
+          <a class="btn btn-white" href="https://obladaet-ru.github.io/student-base/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            Открыть сайт
+          </a>
+          <a class="btn btn-outline-white" href="https://github.com/OBLADAET-ru/student-base" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            Исходный код
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- КОМАНДА -->
+  <section>
+    <h2>Моя <span class="h2-accent">команда</span></h2>
+    <p class="section-lead">
+      Над проектом работает IT-команда ART. Я — руководитель, разработчик и программист.
+    </p>
+
+    <div class="team-row">
+      <div class="art-logo">
+        <span class="dot"></span>
+        <span class="letters">ART</span>
+      </div>
+      <div class="team-info">
+        <span class="role">Команда</span>
+        <p>
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Над проектом работает <strong style="color:var(--dark)">IT-команда ART</strong>
+        </p>
+        <span class="role" style="margin-top:12px;">Руководитель проекта</span>
+        <p>
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <strong>Платонов Виктор Артурович</strong> — студент, разработчик, программист
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ФИНАЛ -->
+  <section>
+    <div class="final-block">
+      <div class="final-content">
+        <h2>Староста — это <span class="h2-accent">доверие</span></h2>
+        <p>
+          Не про власть. Не про докладные. Не про страх. Про порядок, результат
+          и уважение. Я хочу, чтобы каждый студент моей группы вышел из колледжа
+          специалистом и человеком, которым можно гордиться.
+        </p>
+        <p class="quote">
+          «Я веду группу не приказами, а доверием.<br>
+          Не докладами, а результатами.<br>
+          Не словами, а делом.»
+        </p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== ФУТЕР ===================== -->
+<footer>
+  <p class="footer-brand">STUDENT<span class="accent">.BASE</span></p>
+  <p>Портфолио студента · Платонов Виктор Артурович</p>
+  <p style="margin-top:16px; font-size:0.82rem; opacity:0.75;">
+    © 2025–2027 · IT-команда ART · Колледж «Царицыно»
+  </p>
+</footer>
+
+</body>
+</html>
