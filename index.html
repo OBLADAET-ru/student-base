@@ -1,1408 +1,1398 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#000000">
-    <title>STUDENT.BASE — Справочник для студентов</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        :root {
-            --black: #000000;
-            --dark: #0a0a0a;
-            --dark-soft: #111111;
-            --gray: #888888;
-            --gray-light: #b0b0b0;
-            --line: #1e1e1e;
-            --bg: #000000;
-            --bg-soft: #0d0d0d;
-            --blue: #0033ff;
-            --blue-soft: rgba(0, 51, 255, 0.15);
-            --blue-glow: rgba(0, 51, 255, 0.5);
-            --white: #ffffff;
-
-            --section-gap: clamp(60px, 10vw, 140px);
-            --container-pad: clamp(20px, 5vw, 60px);
-        }
-
-        html {
-            scroll-behavior: smooth;
-            -webkit-text-size-adjust: 100%;
-        }
-
-        body {
-            font-family: 'Inter', 'Segoe UI', -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--white);
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-            min-height: 100vh;
-            line-height: 1.5;
-        }
-
-        img, svg { max-width: 100%; height: auto; display: block; }
-
-        /* ===================== ПОЯВЛЕНИЕ ===================== */
-        .reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-            transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .reveal.visible { opacity: 1; transform: translateY(0); }
-
-        .reveal-stagger > * {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
-            transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .reveal-stagger.visible > * { opacity: 1; transform: translateY(0); }
-
-        .reveal-stagger.visible > *:nth-child(1) { transition-delay: 0.05s; }
-        .reveal-stagger.visible > *:nth-child(2) { transition-delay: 0.15s; }
-        .reveal-stagger.visible > *:nth-child(3) { transition-delay: 0.25s; }
-        .reveal-stagger.visible > *:nth-child(4) { transition-delay: 0.35s; }
-        .reveal-stagger.visible > *:nth-child(5) { transition-delay: 0.45s; }
-        .reveal-stagger.visible > *:nth-child(6) { transition-delay: 0.55s; }
-
-        @media (prefers-reduced-motion: reduce) {
-            .reveal, .reveal-stagger > * {
-                opacity: 1 !important;
-                transform: none !important;
-                transition: none !important;
-            }
-        }
-
-        /* ===================== ХЕДЕР / HERO ===================== */
-        .hero {
-            background: var(--black);
-            color: var(--white);
-            position: relative;
-            overflow: hidden;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            min-height: 100vh;
-        }
-
-        @media (max-width: 900px) {
-            .hero { grid-template-columns: 1fr; min-height: auto; }
-        }
-
-        /* ЛЕВАЯ ЧАСТЬ */
-        .hero-left {
-            padding: clamp(25px, 4vw, 50px) clamp(20px, 4vw, 60px) clamp(50px, 8vw, 100px);
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            min-height: 100vh;
-        }
-
-        @media (max-width: 900px) {
-            .hero-left { min-height: auto; padding-bottom: 50px; }
-        }
-
-        /* Шапка */
-        .hero-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: clamp(50px, 10vw, 120px);
-            position: relative;
-            z-index: 5;
-        }
-
-        /* Логотип */
-        .logo-corner {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .logo-corner svg {
-            height: clamp(36px, 5vw, 52px);
-            width: auto;
-        }
-
-        .logo-text {
-            font-size: clamp(0.85rem, 1.4vw, 1rem);
-            font-weight: 900;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--white);
-        }
-
-        @media (max-width: 500px) {
-            .logo-text { display: none; }
-        }
-
-        /* Кнопка портфолио */
-        .btn-top {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--white);
-            color: var(--black);
-            padding: 11px 18px;
-            font-size: clamp(0.68rem, 1.2vw, 0.8rem);
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
-            white-space: nowrap;
-        }
-
-        .btn-top:hover {
-            background: var(--blue);
-            color: var(--white);
-            box-shadow: 0 0 25px var(--blue-glow);
-        }
-
-        .btn-top svg {
-            width: 15px; height: 15px;
-            stroke: currentColor;
-            fill: none;
-            stroke-width: 2.5;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            flex-shrink: 0;
-        }
-
-        /* КРУГИ */
-        .circles-bg {
-            position: absolute;
-            top: 0; left: 0;
-            right: 0; bottom: 0;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .circle-deco {
-            position: absolute;
-            border: 1.5px solid var(--blue);
-            border-radius: 50%;
-            opacity: 0;
-            transform: scale(0.5);
-            transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-            box-shadow: 0 0 30px rgba(0, 51, 255, 0.3), inset 0 0 30px rgba(0, 51, 255, 0.1);
-        }
-
-        .circle-deco.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .circle-1 {
-            width: clamp(120px, 16vw, 200px);
-            height: clamp(120px, 16vw, 200px);
-            top: 0; left: 12%;
-            transition-delay: 0.2s;
-        }
-
-        .circle-2 {
-            width: clamp(140px, 20vw, 240px);
-            height: clamp(140px, 20vw, 240px);
-            top: 8%; left: 45%;
-            transition-delay: 0.4s;
-        }
-
-        .circle-3 {
-            width: clamp(130px, 18vw, 220px);
-            height: clamp(130px, 18vw, 220px);
-            top: 35%; left: 8%;
-            transition-delay: 0.6s;
-        }
-
-        .circle-4 {
-            width: clamp(160px, 22vw, 260px);
-            height: clamp(160px, 22vw, 260px);
-            top: 42%; left: 38%;
-            transition-delay: 0.8s;
-        }
-
-        /* Стрелка */
-        .arrow-deco {
-            position: absolute;
-            top: clamp(20px, 4vw, 60px);
-            right: clamp(15px, 3vw, 50px);
-            width: clamp(100px, 16vw, 200px);
-            z-index: 2;
-            opacity: 0;
-            transform: translate(20px, -20px);
-            transition: opacity 1s ease 1s, transform 1s ease 1s;
-        }
-
-        .arrow-deco.visible {
-            opacity: 1;
-            transform: translate(0, 0);
-        }
-
-        /* Контент */
-        .hero-content {
-            margin-top: auto;
-            position: relative;
-            z-index: 5;
-            max-width: 620px;
-        }
-
-        .hero-title {
-            font-size: clamp(1.9rem, 5.5vw, 4.5rem);
-            font-weight: 900;
-            line-height: 0.98;
-            letter-spacing: -0.03em;
-            text-transform: uppercase;
-            color: var(--white);
-            margin-bottom: clamp(18px, 3vw, 30px);
-        }
-
-        .hero-title .blue {
-            color: var(--blue);
-            text-shadow: 0 0 40px var(--blue-glow);
-        }
-
-        .hero-title .thin {
-            font-weight: 300;
-            font-style: italic;
-        }
-
-        .hero-desc {
-            font-size: clamp(0.88rem, 1.4vw, 1.1rem);
-            color: var(--gray-light);
-            line-height: 1.6;
-            margin-bottom: 25px;
-            max-width: 480px;
-        }
-
-        /* Кнопка в hero */
-        .hero-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: var(--blue);
-            color: var(--white);
-            padding: 14px 26px;
-            font-size: clamp(0.78rem, 1.3vw, 0.9rem);
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            text-decoration: none;
-            border: 1px solid var(--blue);
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-bottom: 30px;
-            box-shadow: 0 0 30px var(--blue-glow);
-        }
-
-        .hero-cta:hover {
-            background: transparent;
-            color: var(--white);
-            box-shadow: 0 0 40px var(--blue-glow);
-        }
-
-        .hero-cta svg {
-            width: 16px; height: 16px;
-            stroke: currentColor;
-            fill: none;
-            stroke-width: 2.5;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .hero-label {
-            font-size: clamp(0.68rem, 1.1vw, 0.82rem);
-            font-weight: 700;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--gray);
-            line-height: 1.8;
-        }
-
-        /* ПРАВАЯ ЧАСТЬ */
-        .hero-right {
-            position: relative;
-            overflow: hidden;
-            background: var(--black);
-        }
-
-        @media (max-width: 900px) {
-            .hero-right {
-                aspect-ratio: 4 / 3;
-                min-height: 280px;
-            }
-        }
-
-        .hero-photo {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .hero-photo-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(
-                    90deg,
-                    rgba(0, 0, 0, 0.75) 0%,
-                    rgba(0, 0, 0, 0.2) 40%,
-                    rgba(0, 0, 0, 0) 100%
-            );
-            z-index: 1;
-        }
-
-        @media (max-width: 900px) {
-            .hero-photo-overlay {
-                background: linear-gradient(
-                        180deg,
-                        rgba(0, 0, 0, 0.1) 0%,
-                        rgba(0, 0, 0, 0.7) 100%
-                );
-            }
-        }
-
-        /* ===================== ОСНОВНОЙ КОНТЕНТ ===================== */
-        main {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 var(--container-pad);
-        }
-
-        section {
-            padding: var(--section-gap) 0;
-            border-bottom: 1px solid var(--line);
-        }
-
-        section:last-of-type { border-bottom: none; }
-
-        .section-header {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: clamp(20px, 4vw, 60px);
-            align-items: start;
-            margin-bottom: clamp(40px, 6vw, 90px);
-        }
-
-        @media (max-width: 640px) {
-            .section-header {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-        }
-
-        .section-num-big {
-            font-size: clamp(2.8rem, 8vw, 7rem);
-            font-weight: 900;
-            color: var(--blue);
-            line-height: 1;
-            letter-spacing: -0.05em;
-            text-shadow: 0 0 40px var(--blue-glow);
-        }
-
-        .section-title-block {
-            padding-top: clamp(10px, 2vw, 20px);
-        }
-
-        .section-title {
-            font-size: clamp(1.5rem, 4.5vw, 4rem);
-            font-weight: 900;
-            line-height: 1;
-            letter-spacing: -0.03em;
-            color: var(--white);
-            text-transform: uppercase;
-            margin-bottom: 18px;
-        }
-
-        .section-title .thin { font-weight: 300; font-style: italic; }
-        .section-title .blue { color: var(--blue); text-shadow: 0 0 30px var(--blue-glow); }
-
-        .section-line {
-            width: 60px;
-            height: 3px;
-            background: var(--blue);
-            margin-bottom: 20px;
-            box-shadow: 0 0 15px var(--blue-glow);
-        }
-
-        .section-lead {
-            font-size: clamp(0.9rem, 1.5vw, 1.15rem);
-            color: var(--gray-light);
-            max-width: 640px;
-            line-height: 1.6;
-        }
-
-        /* ===================== СТАТИСТИКА ===================== */
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
-            gap: 1px;
-            background: var(--line);
-            border: 1px solid var(--line);
-            margin-bottom: clamp(40px, 6vw, 70px);
-        }
-
-        .stat {
-            background: var(--bg);
-            padding: clamp(24px, 4vw, 40px) clamp(20px, 3vw, 30px);
-            text-align: center;
-            transition: all 0.3s;
-        }
-
-        .stat:hover { background: var(--bg-soft); }
-
-        .stat-num {
-            font-size: clamp(2.2rem, 5vw, 4rem);
-            font-weight: 900;
-            color: var(--blue);
-            line-height: 1;
-            letter-spacing: -0.05em;
-            text-shadow: 0 0 30px var(--blue-glow);
-            margin-bottom: 12px;
-        }
-
-        .stat-label {
-            font-size: clamp(0.72rem, 1.2vw, 0.85rem);
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--gray-light);
-            line-height: 1.4;
-        }
-
-        /* ===================== ПРОБЛЕМА ===================== */
-        .problems {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-            gap: 1px;
-            background: var(--line);
-            border: 1px solid var(--line);
-        }
-
-        .problem {
-            background: var(--bg);
-            padding: clamp(24px, 4vw, 50px);
-            transition: all 0.3s;
-        }
-
-        .problem:hover { background: var(--bg-soft); }
-
-        .problem .problem-num {
-            font-size: clamp(0.7rem, 1.2vw, 0.85rem);
-            font-weight: 700;
-            letter-spacing: 3px;
-            color: var(--blue);
-            margin-bottom: 25px;
-        }
-
-        .problem p {
-            font-size: clamp(0.95rem, 1.5vw, 1.15rem);
-            color: var(--white);
-            line-height: 1.5;
-            font-weight: 500;
-        }
-
-        /* ===================== РЕШЕНИЕ ===================== */
-        .solution {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: clamp(30px, 6vw, 100px);
-            align-items: start;
-        }
-
-        @media (max-width: 900px) {
-            .solution { grid-template-columns: 1fr; }
-        }
-
-        .solution-left .solution-lead {
-            font-size: clamp(1.1rem, 2vw, 1.6rem);
-            font-weight: 700;
-            line-height: 1.3;
-            color: var(--white);
-            margin-bottom: 30px;
-            letter-spacing: -0.02em;
-        }
-
-        .solution-left p {
-            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
-            color: var(--gray-light);
-            line-height: 1.7;
-        }
-
-        .solution-list {
-            list-style: none;
-            display: grid;
-            gap: 20px;
-        }
-
-        .solution-list li {
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
-            padding: 24px 0;
-            border-bottom: 1px solid var(--line);
-            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
-            color: var(--white);
-            line-height: 1.5;
-            font-weight: 500;
-        }
-
-        .solution-list li::before {
-            content: "";
-            width: 8px;
-            height: 8px;
-            background: var(--blue);
-            border-radius: 50%;
-            flex-shrink: 0;
-            margin-top: 10px;
-            box-shadow: 0 0 10px var(--blue-glow);
-        }
-
-        .solution-list li:last-child { border-bottom: none; }
-
-        /* ===================== ЧТО ВНУТРИ ===================== */
-        .base-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-            gap: 1px;
-            background: var(--line);
-            border: 1px solid var(--line);
-        }
-
-        .base-card {
-            background: var(--bg);
-            padding: clamp(24px, 4vw, 50px);
-            transition: all 0.35s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .base-card::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 100% 0%, var(--blue-soft), transparent 60%);
-            opacity: 0;
-            transition: opacity 0.35s;
-            pointer-events: none;
-        }
-
-        .base-card:hover { background: var(--bg-soft); }
-        .base-card:hover::after { opacity: 1; }
-        .base-card:hover .base-num { color: var(--white); }
-        .base-card:hover .base-title { color: var(--blue); text-shadow: 0 0 20px var(--blue-glow); }
-        .base-card:hover .base-desc { color: var(--white); }
-
-        .base-num {
-            font-size: clamp(0.7rem, 1.2vw, 0.85rem);
-            font-weight: 700;
-            letter-spacing: 3px;
-            color: var(--blue);
-            margin-bottom: 30px;
-            transition: color 0.35s;
-            position: relative;
-            z-index: 1;
-        }
-
-        .base-title {
-            font-size: clamp(1.1rem, 1.8vw, 1.5rem);
-            font-weight: 800;
-            color: var(--white);
-            margin-bottom: 15px;
-            line-height: 1.2;
-            letter-spacing: -0.02em;
-            transition: color 0.35s;
-            position: relative;
-            z-index: 1;
-        }
-
-        .base-desc {
-            font-size: clamp(0.85rem, 1.4vw, 1rem);
-            color: var(--gray);
-            line-height: 1.6;
-            transition: color 0.35s;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* ===================== КУРСЫ ===================== */
-        .courses {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
-            gap: 1px;
-            background: var(--line);
-            border: 1px solid var(--line);
-        }
-
-        .course {
-            background: var(--bg);
-            padding: clamp(24px, 4vw, 50px);
-            transition: all 0.35s;
-            min-height: 240px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .course::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 100% 0%, var(--blue-soft), transparent 60%);
-            opacity: 0;
-            transition: opacity 0.35s;
-            pointer-events: none;
-        }
-
-        .course:hover { background: var(--bg-soft); }
-        .course:hover::after { opacity: 1; }
-        .course:hover .course-num { color: var(--white); }
-        .course:hover .course-title { color: var(--blue); }
-        .course:hover .course-desc { color: var(--white); }
-
-        .course-num {
-            font-size: clamp(2.5rem, 6vw, 5rem);
-            font-weight: 900;
-            line-height: 1;
-            letter-spacing: -0.05em;
-            color: var(--blue);
-            transition: color 0.35s;
-            text-shadow: 0 0 30px var(--blue-glow);
-            position: relative;
-            z-index: 1;
-        }
-
-        .course-title {
-            font-size: clamp(1rem, 1.6vw, 1.3rem);
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin: 25px 0 12px;
-            color: var(--white);
-            transition: color 0.35s;
-            position: relative;
-            z-index: 1;
-        }
-
-        .course-desc {
-            font-size: clamp(0.82rem, 1.4vw, 0.95rem);
-            color: var(--gray);
-            line-height: 1.5;
-            transition: color 0.35s;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* ===================== ВЫГОДЫ ===================== */
-        .benefits {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-            gap: clamp(25px, 4vw, 50px);
-        }
-
-        .benefit {
-            display: flex;
-            gap: 20px;
-            align-items: flex-start;
-            padding-bottom: 25px;
-            border-bottom: 1px solid var(--line);
-        }
-
-        .benefit-num {
-            font-size: clamp(0.7rem, 1.2vw, 0.85rem);
-            font-weight: 700;
-            letter-spacing: 3px;
-            color: var(--blue);
-            flex-shrink: 0;
-            padding-top: 4px;
-        }
-
-        .benefit-text h3 {
-            font-size: clamp(1rem, 1.6vw, 1.25rem);
-            font-weight: 800;
-            color: var(--white);
-            margin-bottom: 10px;
-            letter-spacing: -0.02em;
-        }
-
-        .benefit-text p {
-            font-size: clamp(0.85rem, 1.4vw, 0.98rem);
-            color: var(--gray-light);
-            line-height: 1.6;
-        }
-
-        /* ===================== АВТОР ===================== */
-        .author {
-            background: var(--bg-soft);
-            color: var(--white);
-            padding: clamp(40px, 8vw, 100px) clamp(24px, 5vw, 80px);
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: clamp(25px, 5vw, 60px);
-            align-items: center;
-            border: 1px solid var(--line);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .author::before {
-            content: "";
-            position: absolute;
-            top: -100px; right: -100px;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, var(--blue-soft), transparent 70%);
-            filter: blur(60px);
-            pointer-events: none;
-        }
-
-        @media (max-width: 700px) {
-            .author { grid-template-columns: 1fr; text-align: left; }
-        }
-
-        .author-logo {
-            width: clamp(70px, 12vw, 140px);
-            height: clamp(70px, 12vw, 140px);
-            background: var(--white);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            box-shadow: 0 0 40px var(--blue-glow);
-            position: relative;
-            z-index: 1;
-        }
-
-        .author-logo svg { width: 70%; height: 70%; }
-
-        .author-info { position: relative; z-index: 1; }
-
-        .author-info .author-role {
-            font-size: clamp(0.68rem, 1.2vw, 0.85rem);
-            font-weight: 700;
-            letter-spacing: 4px;
-            color: var(--blue);
-            text-transform: uppercase;
-            display: block;
-            margin-bottom: 15px;
-        }
-
-        .author-info .author-name {
-            font-size: clamp(1.3rem, 3vw, 2.5rem);
-            font-weight: 900;
-            color: var(--white);
-            letter-spacing: -0.02em;
-            margin-bottom: 12px;
-            line-height: 1.1;
-        }
-
-        .author-info .author-desc {
-            font-size: clamp(0.88rem, 1.5vw, 1.1rem);
-            color: var(--gray-light);
-            line-height: 1.6;
-            max-width: 600px;
-        }
-
-        /* ===================== ФИНАЛ ===================== */
-        .final {
-            padding: clamp(60px, 10vw, 140px) 0;
-            text-align: center;
-            border-bottom: none;
-        }
-
-        .final h2 {
-            font-size: clamp(2rem, 7vw, 6rem);
-            font-weight: 900;
-            line-height: 0.95;
-            letter-spacing: -0.04em;
-            color: var(--white);
-            text-transform: uppercase;
-            margin-bottom: 25px;
-        }
-
-        .final h2 .thin { font-weight: 300; font-style: italic; }
-        .final h2 .blue { color: var(--blue); text-shadow: 0 0 40px var(--blue-glow); }
-
-        .final p {
-            font-size: clamp(0.95rem, 1.8vw, 1.3rem);
-            color: var(--gray-light);
-            max-width: 700px;
-            margin: 0 auto 25px;
-            line-height: 1.6;
-        }
-
-        .final-actions {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin: 35px 0;
-        }
-
-        .final-brand {
-            font-size: clamp(0.95rem, 1.8vw, 1.3rem);
-            font-weight: 800;
-            color: var(--white);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-top: 35px;
-            padding-top: 35px;
-            border-top: 1px solid var(--line);
-            display: inline-block;
-        }
-
-        .final-brand .blue { color: var(--blue); }
-
-        /* ===================== КНОПКИ ===================== */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: var(--white);
-            color: var(--black);
-            padding: clamp(13px, 1.5vw, 16px) clamp(22px, 3vw, 32px);
-            font-size: clamp(0.78rem, 1.4vw, 0.88rem);
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            text-decoration: none;
-            border: 1px solid var(--white);
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
-        }
-
-        .btn:hover {
-            background: var(--blue);
-            border-color: var(--blue);
-            color: var(--white);
-            box-shadow: 0 0 25px var(--blue-glow);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: var(--white);
-            border-color: var(--white);
-        }
-
-        .btn-outline:hover {
-            background: var(--white);
-            color: var(--black);
-            box-shadow: none;
-        }
-
-        .btn svg {
-            width: 16px; height: 16px;
-            stroke: currentColor;
-            fill: none;
-            stroke-width: 2.5;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            flex-shrink: 0;
-        }
-
-        /* ===================== ФУТЕР ===================== */
-        footer {
-            padding: clamp(40px, 6vw, 80px) var(--container-pad) clamp(30px, 5vw, 60px);
-            border-top: 1px solid var(--line);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        footer .footer-brand {
-            font-size: clamp(0.95rem, 1.5vw, 1.15rem);
-            font-weight: 900;
-            letter-spacing: 3px;
-            color: var(--white);
-            text-transform: uppercase;
-        }
-
-        footer .footer-brand .blue { color: var(--blue); text-shadow: 0 0 20px var(--blue-glow); }
-
-        footer .footer-meta {
-            font-size: clamp(0.72rem, 1.3vw, 0.85rem);
-            color: var(--gray);
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-        }
-
-        @media (hover: none) {
-            .problem:hover { background: var(--bg); }
-            .base-card:hover { background: var(--bg); }
-            .base-card:hover .base-title { color: var(--white); }
-            .course:hover { background: var(--bg); }
-            .course:hover .course-num { color: var(--blue); }
-            .course:hover .course-title { color: var(--white); }
-            .btn:hover, .btn-top:hover { background: var(--white); color: var(--black); }
-            .hero-cta:hover { background: var(--blue); color: var(--white); }
-        }
-
-        /* ===================== ПЕЧАТЬ ===================== */
-        @media print {
-            @page { size: A4; margin: 12mm; }
-            html, body {
-                background: #fff !important;
-                color: #000 !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            body, .hero, section, .author, .final { background: #fff !important; color: #000 !important; }
-            .section-title, .section-num-big, .hero-title, .base-title, .course-title, .benefit-text h3 { color: #000 !important; }
-            .base-desc, .course-desc, .benefit-text p, .section-lead, .hero-desc { color: #555 !important; }
-            .hero-right, .circles-bg, .arrow-deco, footer, .top-nav, .logo-corner { display: none !important; }
-            section { page-break-inside: avoid; }
-            .reveal, .reveal-stagger > * { opacity: 1 !important; transform: none !important; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>STUDENT.BASE — Справочник для студентов</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #000000;
+    --dark: #0a0a0a;
+    --dark-soft: #111111;
+    --gray: #888888;
+    --gray-light: #b0b0b0;
+    --line: #1e1e1e;
+    --bg: #000000;
+    --bg-soft: #0d0d0d;
+    --blue: #0033ff;
+    --blue-soft: rgba(0, 51, 255, 0.15);
+    --blue-glow: rgba(0, 51, 255, 0.5);
+    --white: #ffffff;
+
+    --section-gap: clamp(60px, 10vw, 140px);
+    --container-pad: clamp(20px, 5vw, 60px);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: 'Inter', 'Segoe UI', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--white);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+
+  img, svg { max-width: 100%; height: auto; display: block; }
+
+  /* ===================== ПОЯВЛЕНИЕ ===================== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  .reveal-stagger > * {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .reveal-stagger.visible > * { opacity: 1; transform: translateY(0); }
+
+  .reveal-stagger.visible > *:nth-child(1) { transition-delay: 0.05s; }
+  .reveal-stagger.visible > *:nth-child(2) { transition-delay: 0.15s; }
+  .reveal-stagger.visible > *:nth-child(3) { transition-delay: 0.25s; }
+  .reveal-stagger.visible > *:nth-child(4) { transition-delay: 0.35s; }
+  .reveal-stagger.visible > *:nth-child(5) { transition-delay: 0.45s; }
+  .reveal-stagger.visible > *:nth-child(6) { transition-delay: 0.55s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal, .reveal-stagger > * {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+
+  /* ===================== ХЕДЕР ===================== */
+  .hero {
+    background: var(--black);
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+  }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+  }
+
+  .hero-left {
+    padding: clamp(25px, 4vw, 50px) clamp(20px, 4vw, 60px) clamp(50px, 8vw, 100px);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    min-height: 100vh;
+  }
+
+  @media (max-width: 900px) {
+    .hero-left { min-height: auto; padding-bottom: 50px; }
+  }
+
+  .hero-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: clamp(50px, 10vw, 120px);
+    position: relative;
+    z-index: 5;
+  }
+
+  .logo-corner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .logo-corner svg {
+    height: clamp(36px, 5vw, 52px);
+    width: auto;
+  }
+
+  .logo-text {
+    font-size: clamp(0.85rem, 1.4vw, 1rem);
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+
+  @media (max-width: 500px) {
+    .logo-text { display: none; }
+  }
+
+  .btn-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--white);
+    color: var(--black);
+    padding: 11px 18px;
+    font-size: clamp(0.68rem, 1.2vw, 0.8rem);
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+
+  .btn-top:hover {
+    background: var(--blue);
+    color: var(--white);
+    box-shadow: 0 0 25px var(--blue-glow);
+  }
+
+  .btn-top svg {
+    width: 15px; height: 15px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+  }
+
+  /* КРУГИ */
+  .circles-bg {
+    position: absolute;
+    top: 0; left: 0;
+    right: 0; bottom: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .circle-deco {
+    position: absolute;
+    border: 1.5px solid var(--blue);
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 0 30px rgba(0, 51, 255, 0.3), inset 0 0 30px rgba(0, 51, 255, 0.1);
+  }
+
+  .circle-deco.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .circle-1 {
+    width: clamp(120px, 16vw, 200px);
+    height: clamp(120px, 16vw, 200px);
+    top: 0; left: 12%;
+    transition-delay: 0.2s;
+  }
+
+  .circle-2 {
+    width: clamp(140px, 20vw, 240px);
+    height: clamp(140px, 20vw, 240px);
+    top: 8%; left: 45%;
+    transition-delay: 0.4s;
+  }
+
+  .circle-3 {
+    width: clamp(130px, 18vw, 220px);
+    height: clamp(130px, 18vw, 220px);
+    top: 35%; left: 8%;
+    transition-delay: 0.6s;
+  }
+
+  .circle-4 {
+    width: clamp(160px, 22vw, 260px);
+    height: clamp(160px, 22vw, 260px);
+    top: 42%; left: 38%;
+    transition-delay: 0.8s;
+  }
+
+  .arrow-deco {
+    position: absolute;
+    top: clamp(20px, 4vw, 60px);
+    right: clamp(15px, 3vw, 50px);
+    width: clamp(100px, 16vw, 200px);
+    z-index: 2;
+    opacity: 0;
+    transform: translate(20px, -20px);
+    transition: opacity 1s ease 1s, transform 1s ease 1s;
+  }
+
+  .arrow-deco.visible {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  .hero-content {
+    margin-top: auto;
+    position: relative;
+    z-index: 5;
+    max-width: 620px;
+  }
+
+  .hero-title {
+    font-size: clamp(1.9rem, 5.5vw, 4.5rem);
+    font-weight: 900;
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: clamp(18px, 3vw, 30px);
+  }
+
+  .hero-title .blue {
+    color: var(--blue);
+    text-shadow: 0 0 40px var(--blue-glow);
+  }
+
+  .hero-title .thin {
+    font-weight: 300;
+    font-style: italic;
+  }
+
+  .hero-desc {
+    font-size: clamp(0.88rem, 1.4vw, 1.1rem);
+    color: var(--gray-light);
+    line-height: 1.6;
+    margin-bottom: 25px;
+    max-width: 480px;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--blue);
+    color: var(--white);
+    padding: 14px 26px;
+    font-size: clamp(0.78rem, 1.3vw, 0.9rem);
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--blue);
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 30px;
+    box-shadow: 0 0 30px var(--blue-glow);
+  }
+
+  .hero-cta:hover {
+    background: transparent;
+    color: var(--white);
+    box-shadow: 0 0 40px var(--blue-glow);
+  }
+
+  .hero-cta svg {
+    width: 16px; height: 16px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .hero-label {
+    font-size: clamp(0.68rem, 1.1vw, 0.82rem);
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gray);
+    line-height: 1.8;
+  }
+
+  /* ПРАВАЯ ЧАСТЬ — ФОТО */
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+    background: var(--black);
+  }
+
+  @media (max-width: 900px) {
+    .hero-right {
+      aspect-ratio: 4 / 3;
+      min-height: 280px;
+    }
+  }
+
+  .hero-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-photo-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.75) 0%,
+      rgba(0, 0, 0, 0.2) 40%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  @media (max-width: 900px) {
+    .hero-photo-overlay {
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.1) 0%,
+        rgba(0, 0, 0, 0.7) 100%
+      );
+    }
+  }
+
+  /* ===================== КОНТЕНТ ===================== */
+  main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--container-pad);
+  }
+
+  section {
+    padding: var(--section-gap) 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  section:last-of-type { border-bottom: none; }
+
+  .section-header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: clamp(20px, 4vw, 60px);
+    align-items: start;
+    margin-bottom: clamp(40px, 6vw, 90px);
+  }
+
+  @media (max-width: 640px) {
+    .section-header {
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+  }
+
+  .section-num-big {
+    font-size: clamp(2.8rem, 8vw, 7rem);
+    font-weight: 900;
+    color: var(--blue);
+    line-height: 1;
+    letter-spacing: -0.05em;
+    text-shadow: 0 0 40px var(--blue-glow);
+  }
+
+  .section-title-block {
+    padding-top: clamp(10px, 2vw, 20px);
+  }
+
+  .section-title {
+    font-size: clamp(1.5rem, 4.5vw, 4rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+
+  .section-title .thin { font-weight: 300; font-style: italic; }
+  .section-title .blue { color: var(--blue); text-shadow: 0 0 30px var(--blue-glow); }
+
+  .section-line {
+    width: 60px;
+    height: 3px;
+    background: var(--blue);
+    margin-bottom: 20px;
+    box-shadow: 0 0 15px var(--blue-glow);
+  }
+
+  .section-lead {
+    font-size: clamp(0.9rem, 1.5vw, 1.15rem);
+    color: var(--gray-light);
+    max-width: 640px;
+    line-height: 1.6;
+  }
+
+  /* ===================== СТАТИСТИКА ===================== */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+
+  .stat {
+    background: var(--bg);
+    padding: clamp(24px, 4vw, 40px) clamp(20px, 3vw, 30px);
+    text-align: center;
+    transition: all 0.3s;
+  }
+
+  .stat:hover { background: var(--bg-soft); }
+
+  .stat-num {
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 900;
+    color: var(--blue);
+    line-height: 1;
+    letter-spacing: -0.05em;
+    text-shadow: 0 0 30px var(--blue-glow);
+    margin-bottom: 12px;
+  }
+
+  .stat-label {
+    font-size: clamp(0.72rem, 1.2vw, 0.85rem);
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray-light);
+    line-height: 1.4;
+  }
+
+  /* ===================== ПРОБЛЕМА ===================== */
+  .problems {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+
+  .problem {
+    background: var(--bg);
+    padding: clamp(24px, 4vw, 50px);
+    transition: all 0.3s;
+  }
+
+  .problem:hover { background: var(--bg-soft); }
+
+  .problem .problem-num {
+    font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--blue);
+    margin-bottom: 25px;
+  }
+
+  .problem p {
+    font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+    color: var(--white);
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  /* ===================== РЕШЕНИЕ ===================== */
+  .solution {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(30px, 6vw, 100px);
+    align-items: start;
+  }
+
+  @media (max-width: 900px) {
+    .solution { grid-template-columns: 1fr; }
+  }
+
+  .solution-left .solution-lead {
+    font-size: clamp(1.1rem, 2vw, 1.6rem);
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--white);
+    margin-bottom: 30px;
+    letter-spacing: -0.02em;
+  }
+
+  .solution-left p {
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    color: var(--gray-light);
+    line-height: 1.7;
+  }
+
+  .solution-list {
+    list-style: none;
+    display: grid;
+    gap: 20px;
+  }
+
+  .solution-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    color: var(--white);
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  .solution-list li::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background: var(--blue);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 10px;
+    box-shadow: 0 0 10px var(--blue-glow);
+  }
+
+  .solution-list li:last-child { border-bottom: none; }
+
+  /* ===================== ЧТО ВНУТРИ ===================== */
+  .base-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+
+  .base-card {
+    background: var(--bg);
+    padding: clamp(24px, 4vw, 50px);
+    transition: all 0.35s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .base-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 100% 0%, var(--blue-soft), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.35s;
+    pointer-events: none;
+  }
+
+  .base-card:hover { background: var(--bg-soft); }
+  .base-card:hover::after { opacity: 1; }
+  .base-card:hover .base-num { color: var(--white); }
+  .base-card:hover .base-title { color: var(--blue); text-shadow: 0 0 20px var(--blue-glow); }
+  .base-card:hover .base-desc { color: var(--white); }
+
+  .base-num {
+    font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--blue);
+    margin-bottom: 30px;
+    transition: color 0.35s;
+    position: relative;
+    z-index: 1;
+  }
+
+  .base-title {
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 15px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    transition: color 0.35s;
+    position: relative;
+    z-index: 1;
+  }
+
+  .base-desc {
+    font-size: clamp(0.85rem, 1.4vw, 1rem);
+    color: var(--gray);
+    line-height: 1.6;
+    transition: color 0.35s;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===================== КУРСЫ ===================== */
+  .courses {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+
+  .course {
+    background: var(--bg);
+    padding: clamp(24px, 4vw, 50px);
+    transition: all 0.35s;
+    min-height: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .course::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 100% 0%, var(--blue-soft), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.35s;
+    pointer-events: none;
+  }
+
+  .course:hover { background: var(--bg-soft); }
+  .course:hover::after { opacity: 1; }
+  .course:hover .course-num { color: var(--white); }
+  .course:hover .course-title { color: var(--blue); }
+  .course:hover .course-desc { color: var(--white); }
+
+  .course-num {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.05em;
+    color: var(--blue);
+    transition: color 0.35s;
+    text-shadow: 0 0 30px var(--blue-glow);
+    position: relative;
+    z-index: 1;
+  }
+
+  .course-title {
+    font-size: clamp(1rem, 1.6vw, 1.3rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 25px 0 12px;
+    color: var(--white);
+    transition: color 0.35s;
+    position: relative;
+    z-index: 1;
+  }
+
+  .course-desc {
+    font-size: clamp(0.82rem, 1.4vw, 0.95rem);
+    color: var(--gray);
+    line-height: 1.5;
+    transition: color 0.35s;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===================== ВЫГОДЫ ===================== */
+  .benefits {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: clamp(25px, 4vw, 50px);
+  }
+
+  .benefit {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    padding-bottom: 25px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .benefit-num {
+    font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--blue);
+    flex-shrink: 0;
+    padding-top: 4px;
+  }
+
+  .benefit-text h3 {
+    font-size: clamp(1rem, 1.6vw, 1.25rem);
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 10px;
+    letter-spacing: -0.02em;
+  }
+
+  .benefit-text p {
+    font-size: clamp(0.85rem, 1.4vw, 0.98rem);
+    color: var(--gray-light);
+    line-height: 1.6;
+  }
+
+  /* ===================== АВТОР ===================== */
+  .author {
+    background: var(--bg-soft);
+    color: var(--white);
+    padding: clamp(40px, 8vw, 100px) clamp(24px, 5vw, 80px);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: clamp(25px, 5vw, 60px);
+    align-items: center;
+    border: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .author::before {
+    content: "";
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, var(--blue-soft), transparent 70%);
+    filter: blur(60px);
+    pointer-events: none;
+  }
+
+  @media (max-width: 700px) {
+    .author { grid-template-columns: 1fr; text-align: left; }
+  }
+
+  .author-logo {
+    width: clamp(70px, 12vw, 140px);
+    height: clamp(70px, 12vw, 140px);
+    background: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 0 40px var(--blue-glow);
+    position: relative;
+    z-index: 1;
+  }
+
+  .author-logo svg { width: 70%; height: 70%; }
+
+  .author-info { position: relative; z-index: 1; }
+
+  .author-info .author-role {
+    font-size: clamp(0.68rem, 1.2vw, 0.85rem);
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--blue);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 15px;
+  }
+
+  .author-info .author-name {
+    font-size: clamp(1.3rem, 3vw, 2.5rem);
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    line-height: 1.1;
+  }
+
+  .author-info .author-desc {
+    font-size: clamp(0.88rem, 1.5vw, 1.1rem);
+    color: var(--gray-light);
+    line-height: 1.6;
+    max-width: 600px;
+  }
+
+  /* ===================== ФИНАЛ ===================== */
+  .final {
+    padding: clamp(60px, 10vw, 140px) 0;
+    text-align: center;
+    border-bottom: none;
+  }
+
+  .final h2 {
+    font-size: clamp(2rem, 7vw, 6rem);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 25px;
+  }
+
+  .final h2 .thin { font-weight: 300; font-style: italic; }
+  .final h2 .blue { color: var(--blue); text-shadow: 0 0 40px var(--blue-glow); }
+
+  .final p {
+    font-size: clamp(0.95rem, 1.8vw, 1.3rem);
+    color: var(--gray-light);
+    max-width: 700px;
+    margin: 0 auto 25px;
+    line-height: 1.6;
+  }
+
+  .final-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 35px 0;
+  }
+
+  .final-brand {
+    font-size: clamp(0.95rem, 1.8vw, 1.3rem);
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 35px;
+    padding-top: 35px;
+    border-top: 1px solid var(--line);
+    display: inline-block;
+  }
+
+  .final-brand .blue { color: var(--blue); }
+
+  /* ===================== КНОПКИ ===================== */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--white);
+    color: var(--black);
+    padding: clamp(13px, 1.5vw, 16px) clamp(22px, 3vw, 32px);
+    font-size: clamp(0.78rem, 1.4vw, 0.88rem);
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--white);
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: inherit;
+  }
+
+  .btn:hover {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: var(--white);
+    box-shadow: 0 0 25px var(--blue-glow);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--white);
+    border-color: var(--white);
+  }
+
+  .btn-outline:hover {
+    background: var(--white);
+    color: var(--black);
+    box-shadow: none;
+  }
+
+  .btn svg {
+    width: 16px; height: 16px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+  }
+
+  /* ===================== ФУТЕР ===================== */
+  footer {
+    padding: clamp(40px, 6vw, 80px) var(--container-pad) clamp(30px, 5vw, 60px);
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  footer .footer-brand {
+    font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+    font-weight: 900;
+    letter-spacing: 3px;
+    color: var(--white);
+    text-transform: uppercase;
+  }
+
+  footer .footer-brand .blue { color: var(--blue); text-shadow: 0 0 20px var(--blue-glow); }
+
+  footer .footer-meta {
+    font-size: clamp(0.72rem, 1.3vw, 0.85rem);
+    color: var(--gray);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  @media (hover: none) {
+    .problem:hover { background: var(--bg); }
+    .base-card:hover { background: var(--bg); }
+    .base-card:hover .base-title { color: var(--white); }
+    .course:hover { background: var(--bg); }
+    .course:hover .course-num { color: var(--blue); }
+    .course:hover .course-title { color: var(--white); }
+    .btn:hover, .btn-top:hover { background: var(--white); color: var(--black); }
+    .hero-cta:hover { background: var(--blue); color: var(--white); }
+  }
+
+  @media print {
+    @page { size: A4; margin: 12mm; }
+    html, body {
+      background: #fff !important;
+      color: #000 !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    body, .hero, section, .author, .final { background: #fff !important; color: #000 !important; }
+    .section-title, .section-num-big, .hero-title, .base-title, .course-title, .benefit-text h3 { color: #000 !important; }
+    .base-desc, .course-desc, .benefit-text p, .section-lead, .hero-desc { color: #555 !important; }
+    .hero-right, .circles-bg, .arrow-deco, footer, .top-nav, .logo-corner { display: none !important; }
+    section { page-break-inside: avoid; }
+    .reveal, .reveal-stagger > * { opacity: 1 !important; transform: none !important; }
+  }
+</style>
 </head>
 <body>
 
 <!-- ===================== ХЕДЕР ===================== -->
 <header class="hero">
 
-    <div class="hero-left">
+  <div class="hero-left">
 
-        <div class="circles-bg">
-            <div class="circle-deco circle-1"></div>
-            <div class="circle-deco circle-2"></div>
-            <div class="circle-deco circle-3"></div>
-            <div class="circle-deco circle-4"></div>
-        </div>
+    <div class="circles-bg">
+      <div class="circle-deco circle-1"></div>
+      <div class="circle-deco circle-2"></div>
+      <div class="circle-deco circle-3"></div>
+      <div class="circle-deco circle-4"></div>
+    </div>
 
-        <svg class="arrow-deco" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 60 L160 60 L160 20 L195 60 L160 100 L160 60" stroke="#ffffff" stroke-width="8" fill="#ffffff"/>
-        </svg>
+    <svg class="arrow-deco" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 60 L160 60 L160 20 L195 60 L160 100 L160 60" stroke="#ffffff" stroke-width="8" fill="#ffffff"/>
+    </svg>
 
-        <div class="hero-top">
+    <div class="hero-top">
 
-            <a href="#" class="logo-corner">
-                <svg viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg" aria-label="ART">
-                    <circle cx="35" cy="88" r="16" fill="#0033ff"/>
-                    <path d="M 78 108 L 108 18 L 122 18 L 152 108 L 138 108 L 122 58 L 108 108 Z" fill="#ffffff"/>
-                    <path d="M 98 78 L 138 78 L 132 62 L 104 62 Z" fill="#ffffff"/>
-                    <path d="M 175 18 L 175 108 L 190 108 L 190 72 L 218 72 C 238 72 248 62 248 46
+      <a href="#" class="logo-corner">
+        <svg viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg" aria-label="ART">
+          <circle cx="35" cy="88" r="16" fill="#0033ff"/>
+          <path d="M 78 108 L 108 18 L 122 18 L 152 108 L 138 108 L 122 58 L 108 108 Z" fill="#ffffff"/>
+          <path d="M 98 78 L 138 78 L 132 62 L 104 62 Z" fill="#ffffff"/>
+          <path d="M 175 18 L 175 108 L 190 108 L 190 72 L 218 72 C 238 72 248 62 248 46
                    C 248 30 238 18 218 18 Z
                    M 190 32 L 214 32 C 228 32 232 38 232 46 C 232 54 228 58 214 58 L 190 58 Z" fill="#ffffff"/>
-                    <path d="M 200 72 L 240 108 L 260 108 L 220 72 Z" fill="#ffffff"/>
-                    <path d="M 260 18 L 260 32 L 280 32 L 280 108 L 294 108 L 294 32 L 314 32 L 314 18 Z" fill="#ffffff"/>
-                </svg>
-                <span class="logo-text">ART</span>
-            </a>
+          <path d="M 200 72 L 240 108 L 260 108 L 220 72 Z" fill="#ffffff"/>
+          <path d="M 260 18 L 260 32 L 280 32 L 280 108 L 294 108 L 294 32 L 314 32 L 314 18 Z" fill="#ffffff"/>
+        </svg>
+        <span class="logo-text">ART</span>
+      </a>
 
-            <a href="https://obladaet-ru.github.io/student-base/portfolio" target="_blank" rel="noopener" class="btn-top">
-                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                Портфолио
-            </a>
-
-        </div>
-
-        <div class="hero-content">
-            <h1 class="hero-title">
-                Учись<br>
-                <span class="thin">на высоте</span><br>
-                с <span class="blue">STUDENT.BASE</span>
-            </h1>
-            <p class="hero-desc">
-                Единый справочник по всем предметам, темам и курсам.
-                Учебные материалы в одном месте — быстро и удобно.
-            </p>
-
-            <a href="#inside" class="hero-cta">
-                <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-                Узнать больше
-            </a>
-
-            <div class="hero-label">
-                Студенческий<br>
-                справочник<br>
-                2025–2027
-            </div>
-        </div>
+      <a href="portfolio.html" class="btn-top">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Портфолио
+      </a>
 
     </div>
 
-    <div class="hero-right">
-        <img
-                class="hero-photo"
-                src="https://images.unsplash.com/photo-1543269865-cbf427effbad?w=1600&q=85&auto=format&fit=crop"
-                alt="Студенты на аллее"
-        />
-        <div class="hero-photo-overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">
+        Учись<br>
+        <span class="thin">на высоте</span><br>
+        с <span class="blue">STUDENT.BASE</span>
+      </h1>
+      <p class="hero-desc">
+        Единый справочник по всем предметам, темам и курсам.
+        Учебные материалы в одном месте — быстро и удобно.
+      </p>
+
+      <a href="#inside" class="hero-cta">
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        Узнать больше
+      </a>
+
+      <div class="hero-label">
+        Студенческий<br>
+        справочник<br>
+        2025–2027
+      </div>
     </div>
+
+  </div>
+
+  <div class="hero-right">
+    <img
+      class="hero-photo"
+      src="hero.jpg"
+      alt="Студенты на аллее"
+      loading="eager"
+    />
+    <div class="hero-photo-overlay"></div>
+  </div>
 
 </header>
 
 <!-- ===================== КОНТЕНТ ===================== -->
 <main>
 
-    <!-- СТАТИСТИКА -->
-    <section class="reveal">
-        <div class="section-header">
-            <div class="section-num-big">00</div>
-            <div class="section-title-block">
-                <div class="section-line"></div>
-                <h2 class="section-title">Коротко <span class="thin blue">о проекте</span></h2>
-                <p class="section-lead">
-                    Цифры, которые говорят сами за себя.
-                </p>
-            </div>
+  <!-- СТАТИСТИКА -->
+  <section class="reveal">
+    <div class="section-header">
+      <div class="section-num-big">00</div>
+      <div class="section-title-block">
+        <div class="section-line"></div>
+        <h2 class="section-title">Коротко <span class="thin blue">о проекте</span></h2>
+        <p class="section-lead">
+          Цифры, которые говорят сами за себя.
+        </p>
+      </div>
+    </div>
+
+    <div class="stats reveal-stagger">
+      <div class="stat">
+        <div class="stat-num">4</div>
+        <div class="stat-label">курса<br>обучения</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">6</div>
+        <div class="stat-label">типов<br>материалов</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">24/7</div>
+        <div class="stat-label">доступ<br>к базе</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">бесплатно<br>для студентов</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ПРОБЛЕМА -->
+  <section class="reveal">
+    <div class="section-header">
+      <div class="section-num-big">01</div>
+      <div class="section-title-block">
+        <div class="section-line"></div>
+        <h2 class="section-title">Проблема</h2>
+        <p class="section-lead">
+          Студенты сталкиваются с одной и той же ситуацией изо дня в день.
+        </p>
+      </div>
+    </div>
+
+    <div class="problems reveal-stagger">
+      <div class="problem">
+        <div class="problem-num">01</div>
+        <p>Учебные материалы разбросаны по тетрадям, чатам и облачным хранилищам.</p>
+      </div>
+      <div class="problem">
+        <div class="problem-num">02</div>
+        <p>Поиск нужной темы перед экзаменом занимает часы вместо минут.</p>
+      </div>
+      <div class="problem">
+        <div class="problem-num">03</div>
+        <p>Отсутствует единая структура по курсам, предметам и темам.</p>
+      </div>
+      <div class="problem">
+        <div class="problem-num">04</div>
+        <p>Студенты тратят время на поиск, а не на само обучение.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- РЕШЕНИЕ -->
+  <section class="reveal">
+    <div class="section-header">
+      <div class="section-num-big">02</div>
+      <div class="section-title-block">
+        <div class="section-line"></div>
+        <h2 class="section-title">Решение</h2>
+        <p class="section-lead">
+          Структурированная база учебных материалов, где нужную тему можно найти
+          за считанные минуты.
+        </p>
+      </div>
+    </div>
+
+    <div class="solution">
+      <div class="solution-left">
+        <p class="solution-lead">
+          Всё аккуратно разложено по курсам, предметам и темам.
+        </p>
+        <p>
+          STUDENT.BASE — это единая точка входа в учебные материалы. Студент
+          открывает нужный курс, выбирает предмет и находит тему с готовым
+          структурированным материалом.
+        </p>
+      </div>
+
+      <ul class="solution-list">
+        <li>Все курсы — от первого до выпускного</li>
+        <li>Все предметы — от точных до гуманитарных</li>
+        <li>Все темы — кратко, точно и по существу</li>
+        <li>Единый формат подачи материала</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ЧТО ВНУТРИ -->
+  <section class="reveal" id="inside">
+    <div class="section-header">
+      <div class="section-num-big">03</div>
+      <div class="section-title-block">
+        <div class="section-line"></div>
+        <h2 class="section-title">Что <span class="thin blue">внутри</span></h2>
+        <p class="section-lead">
+          Материалы, которые будут собраны в базе по каждому предмету и теме.
+        </p>
+      </div>
+    </div>
+
+    <div class="base-grid reveal-stagger">
+      <div class="base-card">
+        <div class="base-num">01</div>
+        <h3 class="base-title">Конспекты лекций</h3>
+        <p class="base-desc">Сжатые тезисы по каждой теме курса с выделением ключевых мыслей и выводов.</p>
+      </div>
+      <div class="base-card">
+        <div class="base-num">02</div>
+        <h3 class="base-title">Определения и термины</h3>
+        <p class="base-desc">Словарь ключевых понятий по каждому предмету с понятными формулировками.</p>
+      </div>
+      <div class="base-card">
+        <div class="base-num">03</div>
+        <h3 class="base-title">Схемы и таблицы</h3>
+        <p class="base-desc">Визуальные материалы для быстрого запоминания и систематизации знаний.</p>
+      </div>
+      <div class="base-card">
+        <div class="base-num">04</div>
+        <h3 class="base-title">Вопросы к экзамену</h3>
+        <p class="base-desc">Готовые списки экзаменационных вопросов с развёрнутыми ответами.</p>
+      </div>
+      <div class="base-card">
+        <div class="base-num">05</div>
+        <h3 class="base-title">Примеры задач</h3>
+        <p class="base-desc">Разбор типовых заданий с пошаговыми решениями и пояснениями.</p>
+      </div>
+      <div class="base-card">
+        <div class="base-num">06</div>
+        <h3 class="base-title">Полезные ссылки</h3>
+        <p class="base-desc">Проверенные дополнительные источники и материалы по каждой теме.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- КУРСЫ -->
+  <section class="reveal">
+    <div class="section-header">
+      <div class="section-num-big">04</div>
+      <div class="section-title-block">
+        <div class="section-line"></div>
+        <h2 class="section-title">Структура <span class="thin blue">по курсам</span></h2>
+        <p class="section-lead">
+          Материалы организованы по курсам — от первого до выпускного.
+        </p>
+      </div>
+    </div>
+
+    <div class="courses reveal-stagger">
+      <div class="course">
+        <div>
+          <div class="course-num">01</div>
+          <h3 class="course-title">1 курс</h3>
         </div>
-
-        <div class="stats reveal-stagger">
-            <div class="stat">
-                <div class="stat-num">4</div>
-                <div class="stat-label">курса<br>обучения</div>
-            </div>
-            <div class="stat">
-                <div class="stat-num">6</div>
-                <div class="stat-label">типов<br>материалов</div>
-            </div>
-            <div class="stat">
-                <div class="stat-num">24/7</div>
-                <div class="stat-label">доступ<br>к базе</div>
-            </div>
-            <div class="stat">
-                <div class="stat-num">100%</div>
-                <div class="stat-label">бесплатно<br>для студентов</div>
-            </div>
+        <p class="course-desc">Базовые дисциплины, введение в специальность.</p>
+      </div>
+      <div class="course">
+        <div>
+          <div class="course-num">02</div>
+          <h3 class="course-title">2 курс</h3>
         </div>
-    </section>
-
-    <!-- ПРОБЛЕМА -->
-    <section class="reveal">
-        <div class="section-header">
-            <div class="section-num-big">01</div>
-            <div class="section-title-block">
-                <div class="section-line"></div>
-                <h2 class="section-title">Проблема</h2>
-                <p class="section-lead">
-                    Студенты сталкиваются с одной и той же ситуацией изо дня в день.
-                </p>
-            </div>
+        <p class="course-desc">Профильные предметы, первые практики.</p>
+      </div>
+      <div class="course">
+        <div>
+          <div class="course-num">03</div>
+          <h3 class="course-title">3 курс</h3>
         </div>
-
-        <div class="problems reveal-stagger">
-            <div class="problem">
-                <div class="problem-num">01</div>
-                <p>Учебные материалы разбросаны по тетрадям, чатам и облачным хранилищам.</p>
-            </div>
-            <div class="problem">
-                <div class="problem-num">02</div>
-                <p>Поиск нужной темы перед экзаменом занимает часы вместо минут.</p>
-            </div>
-            <div class="problem">
-                <div class="problem-num">03</div>
-                <p>Отсутствует единая структура по курсам, предметам и темам.</p>
-            </div>
-            <div class="problem">
-                <div class="problem-num">04</div>
-                <p>Студенты тратят время на поиск, а не на само обучение.</p>
-            </div>
+        <p class="course-desc">Углублённые темы, курсовые работы.</p>
+      </div>
+      <div class="course">
+        <div>
+          <div class="course-num">04</div>
+          <h3 class="course-title">4 курс</h3>
         </div>
-    </section>
+        <p class="course-desc">Специализация и итоговая аттестация.</p>
+      </div>
+    </div>
+  </section>
 
-    <!-- РЕШЕНИЕ -->
-    <section class="reveal">
-        <div class="section-header">
-            <div class="section-num-big">02</div>
-            <div class="section-title-block">
-                <div class="section-line"></div>
-                <h2 class="section-title">Решение</h2>
-                <p class="section-lead">
-                    Структурированная база учебных материалов, где нужную тему можно найти
-                    за считанные минуты.
-                </p>
-            </div>
+  <!-- ВЫГОДЫ -->
+  <section class="reveal">
+    <div class="section-header">
+      <div class="section-num-big">05</div>
+      <div class="section-title-block">
+        <div class="section-line"></div>
+        <h2 class="section-title">Что получает <span class="thin blue">студент</span></h2>
+        <p class="section-lead">
+          Проект создаётся для того, чтобы учёба стала проще и удобнее.
+        </p>
+      </div>
+    </div>
+
+    <div class="benefits reveal-stagger">
+      <div class="benefit">
+        <div class="benefit-num">01</div>
+        <div class="benefit-text">
+          <h3>Экономия времени</h3>
+          <p>Подготовка к занятию занимает минуты, а не часы поиска по источникам.</p>
         </div>
-
-        <div class="solution">
-            <div class="solution-left">
-                <p class="solution-lead">
-                    Всё аккуратно разложено по курсам, предметам и темам.
-                </p>
-                <p>
-                    STUDENT.BASE — это единая точка входа в учебные материалы. Студент
-                    открывает нужный курс, выбирает предмет и находит тему с готовым
-                    структурированным материалом.
-                </p>
-            </div>
-
-            <ul class="solution-list">
-                <li>Все курсы — от первого до выпускного</li>
-                <li>Все предметы — от точных до гуманитарных</li>
-                <li>Все темы — кратко, точно и по существу</li>
-                <li>Единый формат подачи материала</li>
-            </ul>
+      </div>
+      <div class="benefit">
+        <div class="benefit-num">02</div>
+        <div class="benefit-text">
+          <h3>Уверенность на экзамене</h3>
+          <p>Структурированный материал помогает не упустить важное.</p>
         </div>
-    </section>
-
-    <!-- ЧТО ВНУТРИ -->
-    <section class="reveal" id="inside">
-        <div class="section-header">
-            <div class="section-num-big">03</div>
-            <div class="section-title-block">
-                <div class="section-line"></div>
-                <h2 class="section-title">Что <span class="thin blue">внутри</span></h2>
-                <p class="section-lead">
-                    Материалы, которые будут собраны в базе по каждому предмету и теме.
-                </p>
-            </div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-num">03</div>
+        <div class="benefit-text">
+          <h3>Доступ 24/7</h3>
+          <p>С любого устройства: телефона, планшета или ноутбука.</p>
         </div>
-
-        <div class="base-grid reveal-stagger">
-            <div class="base-card">
-                <div class="base-num">01</div>
-                <h3 class="base-title">Конспекты лекций</h3>
-                <p class="base-desc">Сжатые тезисы по каждой теме курса с выделением ключевых мыслей и выводов.</p>
-            </div>
-            <div class="base-card">
-                <div class="base-num">02</div>
-                <h3 class="base-title">Определения и термины</h3>
-                <p class="base-desc">Словарь ключевых понятий по каждому предмету с понятными формулировками.</p>
-            </div>
-            <div class="base-card">
-                <div class="base-num">03</div>
-                <h3 class="base-title">Схемы и таблицы</h3>
-                <p class="base-desc">Визуальные материалы для быстрого запоминания и систематизации знаний.</p>
-            </div>
-            <div class="base-card">
-                <div class="base-num">04</div>
-                <h3 class="base-title">Вопросы к экзамену</h3>
-                <p class="base-desc">Готовые списки экзаменационных вопросов с развёрнутыми ответами.</p>
-            </div>
-            <div class="base-card">
-                <div class="base-num">05</div>
-                <h3 class="base-title">Примеры задач</h3>
-                <p class="base-desc">Разбор типовых заданий с пошаговыми решениями и пояснениями.</p>
-            </div>
-            <div class="base-card">
-                <div class="base-num">06</div>
-                <h3 class="base-title">Полезные ссылки</h3>
-                <p class="base-desc">Проверенные дополнительные источники и материалы по каждой теме.</p>
-            </div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-num">04</div>
+        <div class="benefit-text">
+          <h3>Единый стандарт</h3>
+          <p>Все материалы оформлены по одному образцу и проверены.</p>
         </div>
-    </section>
-
-    <!-- КУРСЫ -->
-    <section class="reveal">
-        <div class="section-header">
-            <div class="section-num-big">04</div>
-            <div class="section-title-block">
-                <div class="section-line"></div>
-                <h2 class="section-title">Структура <span class="thin blue">по курсам</span></h2>
-                <p class="section-lead">
-                    Материалы организованы по курсам — от первого до выпускного.
-                </p>
-            </div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-num">05</div>
+        <div class="benefit-text">
+          <h3>Актуальность</h3>
+          <p>База регулярно обновляется и дополняется новыми материалами.</p>
         </div>
+      </div>
+    </div>
+  </section>
 
-        <div class="courses reveal-stagger">
-            <div class="course">
-                <div>
-                    <div class="course-num">01</div>
-                    <h3 class="course-title">1 курс</h3>
-                </div>
-                <p class="course-desc">Базовые дисциплины, введение в специальность.</p>
-            </div>
-            <div class="course">
-                <div>
-                    <div class="course-num">02</div>
-                    <h3 class="course-title">2 курс</h3>
-                </div>
-                <p class="course-desc">Профильные предметы, первые практики.</p>
-            </div>
-            <div class="course">
-                <div>
-                    <div class="course-num">03</div>
-                    <h3 class="course-title">3 курс</h3>
-                </div>
-                <p class="course-desc">Углублённые темы, курсовые работы.</p>
-            </div>
-            <div class="course">
-                <div>
-                    <div class="course-num">04</div>
-                    <h3 class="course-title">4 курс</h3>
-                </div>
-                <p class="course-desc">Специализация и итоговая аттестация.</p>
-            </div>
-        </div>
-    </section>
+  <!-- АВТОР -->
+  <section class="reveal">
+    <div class="section-header">
+      <div class="section-num-big">06</div>
+      <div class="section-title-block">
+        <div class="section-line"></div>
+        <h2 class="section-title">Автор <span class="thin blue">проекта</span></h2>
+      </div>
+    </div>
 
-    <!-- ВЫГОДЫ -->
-    <section class="reveal">
-        <div class="section-header">
-            <div class="section-num-big">05</div>
-            <div class="section-title-block">
-                <div class="section-line"></div>
-                <h2 class="section-title">Что получает <span class="thin blue">студент</span></h2>
-                <p class="section-lead">
-                    Проект создаётся для того, чтобы учёба стала проще и удобнее.
-                </p>
-            </div>
-        </div>
-
-        <div class="benefits reveal-stagger">
-            <div class="benefit">
-                <div class="benefit-num">01</div>
-                <div class="benefit-text">
-                    <h3>Экономия времени</h3>
-                    <p>Подготовка к занятию занимает минуты, а не часы поиска по источникам.</p>
-                </div>
-            </div>
-            <div class="benefit">
-                <div class="benefit-num">02</div>
-                <div class="benefit-text">
-                    <h3>Уверенность на экзамене</h3>
-                    <p>Структурированный материал помогает не упустить важное.</p>
-                </div>
-            </div>
-            <div class="benefit">
-                <div class="benefit-num">03</div>
-                <div class="benefit-text">
-                    <h3>Доступ 24/7</h3>
-                    <p>С любого устройства: телефона, планшета или ноутбука.</p>
-                </div>
-            </div>
-            <div class="benefit">
-                <div class="benefit-num">04</div>
-                <div class="benefit-text">
-                    <h3>Единый стандарт</h3>
-                    <p>Все материалы оформлены по одному образцу и проверены.</p>
-                </div>
-            </div>
-            <div class="benefit">
-                <div class="benefit-num">05</div>
-                <div class="benefit-text">
-                    <h3>Актуальность</h3>
-                    <p>База регулярно обновляется и дополняется новыми материалами.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- АВТОР -->
-    <section class="reveal">
-        <div class="section-header">
-            <div class="section-num-big">06</div>
-            <div class="section-title-block">
-                <div class="section-line"></div>
-                <h2 class="section-title">Автор <span class="thin blue">проекта</span></h2>
-            </div>
-        </div>
-
-        <div class="author">
-            <div class="author-logo">
-                <svg viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg" aria-label="ART">
-                    <circle cx="35" cy="88" r="16" fill="#0033ff"/>
-                    <path d="M 78 108 L 108 18 L 122 18 L 152 108 L 138 108 L 122 58 L 108 108 Z" fill="#000000"/>
-                    <path d="M 98 78 L 138 78 L 132 62 L 104 62 Z" fill="#000000"/>
-                    <path d="M 175 18 L 175 108 L 190 108 L 190 72 L 218 72 C 238 72 248 62 248 46
+    <div class="author">
+      <div class="author-logo">
+        <svg viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg" aria-label="ART">
+          <circle cx="35" cy="88" r="16" fill="#0033ff"/>
+          <path d="M 78 108 L 108 18 L 122 18 L 152 108 L 138 108 L 122 58 L 108 108 Z" fill="#000000"/>
+          <path d="M 98 78 L 138 78 L 132 62 L 104 62 Z" fill="#000000"/>
+          <path d="M 175 18 L 175 108 L 190 108 L 190 72 L 218 72 C 238 72 248 62 248 46
                    C 248 30 238 18 218 18 Z
                    M 190 32 L 214 32 C 228 32 232 38 232 46 C 232 54 228 58 214 58 L 190 58 Z" fill="#000000"/>
-                    <path d="M 200 72 L 240 108 L 260 108 L 220 72 Z" fill="#000000"/>
-                    <path d="M 260 18 L 260 32 L 280 32 L 280 108 L 294 108 L 294 32 L 314 32 L 314 18 Z" fill="#000000"/>
-                </svg>
-            </div>
-            <div class="author-info">
-                <span class="author-role">Автор проекта</span>
-                <p class="author-name">Платонов Виктор Артурович</p>
-                <p class="author-desc">
-                    Студент 2 курса. Работаю над STUDENT.BASE — развиваю проект
-                    и наполняю его материалами.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- ФИНАЛ -->
-    <section class="final reveal">
-        <h2>
-            Спасибо<br>
-            за <span class="thin blue">внимание</span>
-        </h2>
-        <p>
-            STUDENT.BASE — это проект, который делает учёбу проще. Материалы собираются
-            в одном месте, чтобы каждый студент мог найти нужное быстро.
+          <path d="M 200 72 L 240 108 L 260 108 L 220 72 Z" fill="#000000"/>
+          <path d="M 260 18 L 260 32 L 280 32 L 280 108 L 294 108 L 294 32 L 314 32 L 314 18 Z" fill="#000000"/>
+        </svg>
+      </div>
+      <div class="author-info">
+        <span class="author-role">Автор проекта</span>
+        <p class="author-name">Платонов Виктор Артурович</p>
+        <p class="author-desc">
+          Студент 2 курса. Работаю над STUDENT.BASE — развиваю проект
+          и наполняю его материалами.
         </p>
+      </div>
+    </div>
+  </section>
 
-        <div class="final-actions">
-            <a href="https://obladaet-ru.github.io/student-base/portfolio" target="_blank" rel="noopener" class="btn">
-                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                Портфолио автора
-            </a>
-            <a href="https://github.com/OBLADAET-ru/student-base" target="_blank" rel="noopener" class="btn btn-outline">
-                <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                GitHub проекта
-            </a>
-        </div>
+  <!-- ФИНАЛ -->
+  <section class="final reveal">
+    <h2>
+      Спасибо<br>
+      за <span class="thin blue">внимание</span>
+    </h2>
+    <p>
+      STUDENT.BASE — это проект, который делает учёбу проще. Материалы собираются
+      в одном месте, чтобы каждый студент мог найти нужное быстро.
+    </p>
 
-        <div class="final-brand">
-            STUDENT<span class="blue">.BASE</span> — твой учебник всегда в кармане
-        </div>
-    </section>
+    <div class="final-actions">
+      <a href="portfolio.html" class="btn">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Портфолио автора
+      </a>
+      <a href="https://github.com/OBLADAET-ru/student-base" target="_blank" rel="noopener" class="btn btn-outline">
+        <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        GitHub проекта
+      </a>
+    </div>
+
+    <div class="final-brand">
+      STUDENT<span class="blue">.BASE</span> — твой учебник всегда в кармане
+    </div>
+  </section>
 
 </main>
 
 <!-- ===================== ФУТЕР ===================== -->
 <footer>
-    <div class="footer-brand">
-        STUDENT<span class="blue">.BASE</span>
-    </div>
-    <div class="footer-meta">
-        © 2025–2027 · Колледж «Царицыно»
-    </div>
+  <div class="footer-brand">
+    STUDENT<span class="blue">.BASE</span>
+  </div>
+  <div class="footer-meta">
+    © 2025–2027 · Колледж «Царицыно»
+  </div>
 </footer>
 
 <script>
-    // Появление секций при скролле
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                revealObserver.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.12,
-        rootMargin: '0px 0px -80px 0px'
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
     });
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -80px 0px'
+  });
 
+  document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => {
+    revealObserver.observe(el);
+  });
+
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.querySelectorAll('.circle-deco').forEach(circle => {
+        circle.classList.add('visible');
+      });
+      document.querySelector('.arrow-deco')?.classList.add('visible');
+    }, 300);
+  });
+
+  window.addEventListener('beforeprint', () => {
     document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => {
-        revealObserver.observe(el);
+      el.classList.add('visible');
     });
-
-    // Анимация появления кругов и стрелки
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            document.querySelectorAll('.circle-deco').forEach(circle => {
-                circle.classList.add('visible');
-            });
-            document.querySelector('.arrow-deco')?.classList.add('visible');
-        }, 300);
-    });
-
-    // PDF
-    window.addEventListener('beforeprint', () => {
-        document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => {
-            el.classList.add('visible');
-        });
-    });
+  });
 </script>
 
 </body>
