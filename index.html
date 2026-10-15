@@ -115,21 +115,18 @@
     z-index: 5;
   }
 
-  /* ЛОГОТИП — чёрный на белой плашке, без текста */
+  /* ЛОГОТИП — без фона, только чёрный лого */
   .logo-corner {
     display: flex;
     align-items: center;
     text-decoration: none;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    background: var(--white);
-    padding: 12px 18px;
-    border-radius: 14px;
-    box-shadow: 0 0 25px rgba(0, 51, 255, 0.3);
+    transition: transform 0.3s ease, filter 0.3s ease;
+    filter: invert(1) brightness(2);
   }
 
   .logo-corner:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 35px rgba(0, 51, 255, 0.6);
+    filter: invert(1) brightness(2) drop-shadow(0 0 20px rgba(0, 51, 255, 0.7));
   }
 
   .logo-corner .logo-img {
@@ -139,10 +136,10 @@
   }
 
   @media (max-width: 500px) {
-    .logo-corner { padding: 8px 14px; border-radius: 10px; }
-    .logo-corner .logo-img { height: 44px; }
+    .logo-corner .logo-img { height: 42px; }
   }
 
+  /* Кнопка в шапке — теперь просто текст со стрелкой вниз */
   .btn-top {
     display: inline-flex;
     align-items: center;
@@ -378,7 +375,7 @@
     position: relative;
   }
 
-  /* ========== STACK CARDS ЭФФЕКТ ========== */
+  /* STACK CARDS */
   section {
     padding: var(--section-gap) 0;
     border-bottom: 1px solid var(--line);
@@ -480,7 +477,7 @@
     line-height: 1.6;
   }
 
-  /* ===================== СТАТИСТИКА ===================== */
+  /* СТАТИСТИКА */
   .stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
@@ -521,7 +518,7 @@
     line-height: 1.4;
   }
 
-  /* ===================== ПРОБЛЕМА ===================== */
+  /* ПРОБЛЕМА */
   .problems {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
@@ -556,7 +553,7 @@
     font-weight: 500;
   }
 
-  /* ===================== РЕШЕНИЕ ===================== */
+  /* РЕШЕНИЕ */
   .solution {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -614,7 +611,7 @@
 
   .solution-list li:last-child { border-bottom: none; }
 
-  /* ===================== ЧТО ВНУТРИ ===================== */
+  /* ЧТО ВНУТРИ */
   .base-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
@@ -685,7 +682,7 @@
     z-index: 1;
   }
 
-  /* ===================== КУРСЫ ===================== */
+  /* КУРСЫ */
   .courses {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
@@ -761,7 +758,7 @@
     z-index: 1;
   }
 
-  /* ===================== ВЫГОДЫ ===================== */
+  /* ВЫГОДЫ */
   .benefits {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
@@ -806,85 +803,6 @@
     font-size: clamp(0.85rem, 1.4vw, 0.98rem);
     color: var(--gray-light);
     line-height: 1.6;
-  }
-
-  /* ===================== АВТОР ===================== */
-  .author {
-    background: var(--bg-soft);
-    color: var(--white);
-    padding: clamp(40px, 8vw, 100px) clamp(24px, 5vw, 80px);
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: clamp(25px, 5vw, 60px);
-    align-items: center;
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .author::before {
-    content: "";
-    position: absolute;
-    top: -100px; right: -100px;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, var(--blue-soft), transparent 70%);
-    filter: blur(60px);
-    pointer-events: none;
-  }
-
-  @media (max-width: 700px) {
-    .author { grid-template-columns: 1fr; text-align: left; }
-  }
-
-  .author-logo {
-    width: clamp(70px, 12vw, 140px);
-    height: clamp(70px, 12vw, 140px);
-    background: var(--white);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    box-shadow: 0 0 40px var(--blue-glow);
-    position: relative;
-    z-index: 1;
-    overflow: hidden;
-  }
-
-  .author-logo img {
-    width: 75%;
-    height: 75%;
-    object-fit: contain;
-  }
-
-  .author-info { position: relative; z-index: 1; }
-
-  .author-info .author-role {
-    font-size: clamp(0.68rem, 1.2vw, 0.85rem);
-    font-weight: 700;
-    letter-spacing: 4px;
-    color: var(--blue);
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 15px;
-  }
-
-  .author-info .author-name {
-    font-size: clamp(1.3rem, 3vw, 2.5rem);
-    font-weight: 900;
-    color: var(--white);
-    letter-spacing: -0.02em;
-    margin-bottom: 12px;
-    line-height: 1.1;
-  }
-
-  .author-info .author-desc {
-    font-size: clamp(0.88rem, 1.5vw, 1.1rem);
-    color: var(--gray-light);
-    line-height: 1.6;
-    max-width: 600px;
   }
 
   /* ===================== ФИНАЛ ===================== */
@@ -937,7 +855,7 @@
 
   .final-brand .blue { color: var(--blue); }
 
-  /* ===================== КНОПКИ ===================== */
+  /* КНОПКИ */
   .btn {
     display: inline-flex;
     align-items: center;
@@ -985,7 +903,7 @@
     flex-shrink: 0;
   }
 
-  /* ===================== ФУТЕР ===================== */
+  /* ФУТЕР */
   footer {
     padding: clamp(40px, 6vw, 80px) var(--container-pad) clamp(30px, 5vw, 60px);
     border-top: 1px solid var(--line);
@@ -1025,7 +943,7 @@
     .hero-cta:hover { background: var(--blue); color: var(--white); }
   }
 
-  /* ===================== ПЕЧАТЬ ===================== */
+  /* ПЕЧАТЬ */
   @media print {
     @page { size: A4; margin: 12mm; }
     html, body {
@@ -1034,7 +952,7 @@
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
-    body, .hero, section, .author, .final { background: #fff !important; color: #000 !important; }
+    body, .hero, section, .final { background: #fff !important; color: #000 !important; }
     .section-title, .section-num-big, .hero-title, .base-title, .course-title, .benefit-text h3 { color: #000 !important; }
     .base-desc, .course-desc, .benefit-text p, .section-lead, .hero-desc { color: #555 !important; }
     .hero-right, .circles-bg, .arrow-deco, footer, .top-nav, .logo-corner { display: none !important; }
@@ -1068,9 +986,9 @@
         <img src="logo1.jpg" alt="ART" class="logo-img" />
       </a>
 
-      <a href="portfolio.html" class="btn-top">
-        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Портфолио
+      <a href="#inside" class="btn-top">
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        Смотреть
       </a>
 
     </div>
@@ -1360,31 +1278,6 @@
     </div>
   </section>
 
-  <!-- АВТОР -->
-  <section class="reveal">
-    <div class="section-header">
-      <div class="section-num-big">06</div>
-      <div class="section-title-block">
-        <div class="section-line"></div>
-        <h2 class="section-title">Автор <span class="thin blue">проекта</span></h2>
-      </div>
-    </div>
-
-    <div class="author">
-      <div class="author-logo">
-        <img src="logo1.jpg" alt="ART" />
-      </div>
-      <div class="author-info">
-        <span class="author-role">Автор проекта</span>
-        <p class="author-name">Платонов Виктор Артурович</p>
-        <p class="author-desc">
-          Студент 2 курса. Работаю над STUDENT.BASE — развиваю проект
-          и наполняю его материалами.
-        </p>
-      </div>
-    </div>
-  </section>
-
   <!-- ФИНАЛ -->
   <section class="final reveal">
     <h2>
@@ -1397,11 +1290,7 @@
     </p>
 
     <div class="final-actions">
-      <a href="portfolio.html" class="btn">
-        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Портфолио автора
-      </a>
-      <a href="https://github.com/OBLADAET-ru/student-base" target="_blank" rel="noopener" class="btn btn-outline">
+      <a href="https://github.com/OBLADAET-ru/student-base" target="_blank" rel="noopener" class="btn">
         <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
         GitHub проекта
       </a>
@@ -1425,7 +1314,6 @@
 </footer>
 
 <script>
-  // ================== Появление секций при скролле ==================
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -1442,7 +1330,6 @@
     revealObserver.observe(el);
   });
 
-  // ================== Анимация кругов и стрелки ==================
   window.addEventListener('load', () => {
     setTimeout(() => {
       document.querySelectorAll('.circle-deco').forEach(circle => {
@@ -1452,41 +1339,30 @@
     }, 300);
   });
 
-  // ================== STACK CARDS эффект ==================
   (function() {
     const sections = document.querySelectorAll('main section');
     if (!sections.length) return;
-
     const isMobile = () => window.innerWidth <= 700;
     const isReduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
     if (isMobile() || isReduced()) return;
-
     let currentActive = -1;
 
     function updateStacks() {
       if (isMobile() || isReduced()) return;
-
       const triggerLine = window.innerHeight * 0.3;
       let activeIndex = -1;
-
       sections.forEach((section, i) => {
         const rect = section.getBoundingClientRect();
-        if (rect.top <= triggerLine && rect.bottom > triggerLine) {
-          activeIndex = i;
-        }
+        if (rect.top <= triggerLine && rect.bottom > triggerLine) activeIndex = i;
       });
-
       if (activeIndex === -1) {
         sections.forEach((section, i) => {
           const rect = section.getBoundingClientRect();
           if (rect.top <= triggerLine) activeIndex = i;
         });
       }
-
       if (activeIndex === currentActive) return;
       currentActive = activeIndex;
-
       sections.forEach((section, i) => {
         if (i === activeIndex) {
           section.classList.remove('stack-out');
@@ -1520,7 +1396,6 @@
     updateStacks();
   })();
 
-  // ================== PDF ==================
   window.addEventListener('beforeprint', () => {
     document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => {
       el.classList.add('visible');
