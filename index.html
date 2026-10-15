@@ -21,6 +21,7 @@
     --blue-soft: rgba(0, 51, 255, 0.15);
     --blue-glow: rgba(0, 51, 255, 0.5);
     --white: #ffffff;
+    --vk: #0077ff;
 
     --section-gap: clamp(60px, 10vw, 140px);
     --container-pad: clamp(20px, 5vw, 60px);
@@ -115,7 +116,6 @@
     z-index: 5;
   }
 
-  /* ЛОГОТИП — чёрный на белой плашке (без фильтров!) */
   .logo-corner {
     display: inline-flex;
     align-items: center;
@@ -137,7 +137,6 @@
     height: clamp(42px, 5.5vw, 60px);
     width: auto;
     display: block;
-    /* НИКАКИХ фильтров — логотип остаётся оригинальным (чёрным) */
   }
 
   @media (max-width: 500px) {
@@ -145,7 +144,6 @@
     .logo-corner .logo-img { height: 38px; }
   }
 
-  /* Кнопка "Смотреть" в шапке */
   .btn-top {
     display: inline-flex;
     align-items: center;
@@ -328,7 +326,6 @@
     line-height: 1.8;
   }
 
-  /* ПРАВАЯ ЧАСТЬ — ФОТО */
   .hero-right {
     position: relative;
     overflow: hidden;
@@ -381,7 +378,6 @@
     position: relative;
   }
 
-  /* STACK CARDS */
   section {
     padding: var(--section-gap) 0;
     border-bottom: 1px solid var(--line);
@@ -909,35 +905,170 @@
     flex-shrink: 0;
   }
 
-  /* ФУТЕР */
+  /* ===================== ФУТЕР ===================== */
   footer {
-    padding: clamp(40px, 6vw, 80px) var(--container-pad) clamp(30px, 5vw, 60px);
+    padding: clamp(50px, 6vw, 80px) var(--container-pad) clamp(40px, 5vw, 60px);
     border-top: 1px solid var(--line);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
+    background: var(--bg);
     position: relative;
     z-index: 2;
-    background: var(--bg);
   }
 
-  footer .footer-brand {
-    font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+  .footer-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: clamp(25px, 4vw, 50px);
+    align-items: center;
+  }
+
+  @media (max-width: 900px) {
+    .footer-inner {
+      grid-template-columns: 1fr;
+      gap: 30px;
+      text-align: left;
+    }
+  }
+
+  /* Левая часть — бренд */
+  .footer-left .footer-brand {
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
     font-weight: 900;
     letter-spacing: 3px;
     color: var(--white);
     text-transform: uppercase;
+    margin-bottom: 8px;
   }
 
-  footer .footer-brand .blue { color: var(--blue); text-shadow: 0 0 20px var(--blue-glow); }
+  .footer-left .footer-brand .blue { color: var(--blue); text-shadow: 0 0 20px var(--blue-glow); }
 
-  footer .footer-meta {
+  .footer-left .footer-copy {
     font-size: clamp(0.72rem, 1.3vw, 0.85rem);
     color: var(--gray);
     letter-spacing: 1.5px;
     text-transform: uppercase;
+  }
+
+  /* Центр — ВК кнопка */
+  .footer-center {
+    display: flex;
+    justify-content: center;
+  }
+
+  .vk-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--vk);
+    color: var(--white);
+    padding: 14px 24px;
+    border-radius: 12px;
+    font-size: clamp(0.85rem, 1.4vw, 0.95rem);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 25px rgba(0, 119, 255, 0.4);
+    white-space: nowrap;
+  }
+
+  .vk-btn:hover {
+    background: #0066dd;
+    transform: translateY(-3px);
+    box-shadow: 0 0 40px rgba(0, 119, 255, 0.8);
+  }
+
+  .vk-btn .vk-icon {
+    width: 28px;
+    height: 28px;
+    background: var(--white);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .vk-btn .vk-icon svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--vk);
+    display: block;
+  }
+
+  .vk-btn .vk-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+    text-align: left;
+  }
+
+  .vk-btn .vk-text span:first-child {
+    font-size: clamp(0.72rem, 1.1vw, 0.8rem);
+    font-weight: 600;
+    opacity: 0.85;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .vk-btn .vk-text span:last-child {
+    font-size: clamp(0.9rem, 1.5vw, 1rem);
+    font-weight: 800;
+    letter-spacing: 0.3px;
+  }
+
+  .vk-btn .vk-arrow {
+    width: 18px;
+    height: 18px;
+    stroke: var(--white);
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+  }
+
+  .vk-btn:hover .vk-arrow {
+    transform: translate(3px, -3px);
+  }
+
+  @media (max-width: 500px) {
+    .vk-btn {
+      padding: 12px 18px;
+      gap: 12px;
+      width: 100%;
+      justify-content: center;
+    }
+    .vk-btn .vk-icon { width: 24px; height: 24px; border-radius: 6px; }
+    .vk-btn .vk-icon svg { width: 16px; height: 16px; }
+  }
+
+  /* Правая часть — автор */
+  .footer-right {
+    text-align: right;
+  }
+
+  @media (max-width: 900px) {
+    .footer-right { text-align: left; }
+  }
+
+  .footer-right .author-role {
+    font-size: clamp(0.68rem, 1.1vw, 0.78rem);
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    color: var(--blue);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .footer-right .author-name {
+    font-size: clamp(0.9rem, 1.4vw, 1rem);
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.3px;
   }
 
   @media (hover: none) {
@@ -947,6 +1078,7 @@
     .benefit:hover { background: var(--bg-soft); transform: none; }
     .btn:hover, .btn-top:hover { background: var(--white); color: var(--black); }
     .hero-cta:hover { background: var(--blue); color: var(--white); }
+    .vk-btn:hover { transform: none; }
   }
 
   /* ПЕЧАТЬ */
@@ -958,10 +1090,10 @@
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
-    body, .hero, section, .final { background: #fff !important; color: #000 !important; }
+    body, .hero, section, .final, footer { background: #fff !important; color: #000 !important; }
     .section-title, .section-num-big, .hero-title, .base-title, .course-title, .benefit-text h3 { color: #000 !important; }
     .base-desc, .course-desc, .benefit-text p, .section-lead, .hero-desc { color: #555 !important; }
-    .hero-right, .circles-bg, .arrow-deco, footer, .top-nav, .logo-corner { display: none !important; }
+    .hero-right, .circles-bg, .arrow-deco, .logo-corner { display: none !important; }
     section { page-break-inside: avoid; }
     section.stack-out { transform: none !important; opacity: 1 !important; filter: none !important; }
     .reveal, .reveal-stagger > * { opacity: 1 !important; transform: none !important; }
@@ -1311,11 +1443,46 @@
 
 <!-- ===================== ФУТЕР ===================== -->
 <footer>
-  <div class="footer-brand">
-    STUDENT<span class="blue">.BASE</span>
-  </div>
-  <div class="footer-meta">
-    © 2025–2027 · Колледж «Царицыно»
+  <div class="footer-inner">
+
+    <!-- Левая часть — бренд -->
+    <div class="footer-left">
+      <div class="footer-brand">
+        STUDENT<span class="blue">.BASE</span>
+      </div>
+      <div class="footer-copy">
+        © 2025–2027 · Колледж «Царицыно»
+      </div>
+    </div>
+
+    <!-- Центр — ВК кнопка -->
+    <div class="footer-center">
+      <a
+        href="https://vk.ru/art241632008"
+        target="_blank"
+        rel="noopener"
+        class="vk-btn"
+        aria-label="Сообщество ВКонтакте"
+      >
+        <span class="vk-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13.162 18.994c.609 0 .858-.406.851-.915-.031-1.917.714-2.949 2.059-1.604 1.488 1.488 1.796 2.519 3.603 2.519h3.2c.808 0 1.126-.26 1.126-.668 0-.863-1.421-2.386-2.625-3.504-1.686-1.565-1.765-1.602-.313-3.486 1.801-2.339 4.157-5.336 2.073-5.336h-3.981c-.772 0-.828.435-1.103 1.083-.995 2.347-2.886 5.387-3.604 4.922-.751-.485-.407-2.406-.35-5.261.015-.754.011-1.271-1.141-1.539-.629-.145-1.241-.205-1.809-.205-2.273 0-3.841.953-2.95 1.119 1.571.293 1.42 3.692 1.054 5.16-.638 2.556-3.036-2.024-4.035-4.305-.241-.548-.315-.974-1.175-.974H.461c-.492 0-.787.16-.787.516 0 .602 2.96 6.72 5.786 9.77 2.756 2.975 5.48 2.708 7.702 2.708z"/>
+          </svg>
+        </span>
+        <span class="vk-text">
+          <span>Мы во ВКонтакте</span>
+          <span>vk.ru/art241632008</span>
+        </span>
+        <svg class="vk-arrow" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+      </a>
+    </div>
+
+    <!-- Правая часть — автор -->
+    <div class="footer-right">
+      <span class="author-role">Руководитель</span>
+      <div class="author-name">Виктор Артурович П.</div>
+    </div>
+
   </div>
 </footer>
 
