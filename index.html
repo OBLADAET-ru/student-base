@@ -86,6 +86,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     min-height: 100vh;
+    z-index: 1;
   }
 
   @media (max-width: 900px) {
@@ -114,6 +115,7 @@
     z-index: 5;
   }
 
+  /* ЛОГОТИП на белой плашке */
   .logo-corner {
     display: flex;
     align-items: center;
@@ -122,9 +124,24 @@
     color: inherit;
   }
 
-  .logo-corner svg {
-    height: clamp(36px, 5vw, 52px);
+  .logo-corner .logo-bg {
+    background: var(--white);
+    border-radius: 10px;
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+  }
+
+  .logo-corner .logo-bg img {
+    height: clamp(28px, 4vw, 40px);
     width: auto;
+    display: block;
+  }
+
+  .logo-corner:hover .logo-bg {
+    box-shadow: 0 0 25px var(--blue-glow);
   }
 
   .logo-text {
@@ -137,6 +154,8 @@
 
   @media (max-width: 500px) {
     .logo-text { display: none; }
+    .logo-corner .logo-bg { padding: 6px 10px; }
+    .logo-corner .logo-bg img { height: 26px; }
   }
 
   .btn-top {
@@ -371,14 +390,57 @@
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 var(--container-pad);
+    position: relative;
   }
 
+  /* ========== STACK CARDS ЭФФЕКТ ========== */
   section {
     padding: var(--section-gap) 0;
     border-bottom: 1px solid var(--line);
+    position: relative;
+    background: var(--bg);
+    transform-origin: center top;
+    will-change: transform;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+                filter 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   section:last-of-type { border-bottom: none; }
+
+  /* Прошлая секция — уходит назад */
+  section.stack-out {
+    transform: scale(0.94) translateY(-20px);
+    opacity: 0.4;
+    filter: blur(2px);
+    pointer-events: none;
+  }
+
+  /* Активная секция */
+  section.stack-active {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    filter: blur(0);
+  }
+
+  /* Мобильные и reduced-motion — отключаем эффект */
+  @media (max-width: 700px) {
+    section.stack-out {
+      transform: none;
+      opacity: 1;
+      filter: none;
+      pointer-events: auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    section.stack-out {
+      transform: none;
+      opacity: 1;
+      filter: none;
+      pointer-events: auto;
+    }
+  }
 
   .section-header {
     display: grid;
@@ -916,6 +978,9 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 20px;
+    position: relative;
+    z-index: 2;
+    background: var(--bg);
   }
 
   footer .footer-brand {
@@ -946,6 +1011,7 @@
     .hero-cta:hover { background: var(--blue); color: var(--white); }
   }
 
+  /* ===================== ПЕЧАТЬ ===================== */
   @media print {
     @page { size: A4; margin: 12mm; }
     html, body {
@@ -959,6 +1025,7 @@
     .base-desc, .course-desc, .benefit-text p, .section-lead, .hero-desc { color: #555 !important; }
     .hero-right, .circles-bg, .arrow-deco, footer, .top-nav, .logo-corner { display: none !important; }
     section { page-break-inside: avoid; }
+    section.stack-out { transform: none !important; opacity: 1 !important; filter: none !important; }
     .reveal, .reveal-stagger > * { opacity: 1 !important; transform: none !important; }
   }
 </style>
@@ -984,16 +1051,9 @@
     <div class="hero-top">
 
       <a href="#" class="logo-corner">
-        <svg viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg" aria-label="ART">
-          <circle cx="35" cy="88" r="16" fill="#0033ff"/>
-          <path d="M 78 108 L 108 18 L 122 18 L 152 108 L 138 108 L 122 58 L 108 108 Z" fill="#ffffff"/>
-          <path d="M 98 78 L 138 78 L 132 62 L 104 62 Z" fill="#ffffff"/>
-          <path d="M 175 18 L 175 108 L 190 108 L 190 72 L 218 72 C 238 72 248 62 248 46
-                   C 248 30 238 18 218 18 Z
-                   M 190 32 L 214 32 C 228 32 232 38 232 46 C 232 54 228 58 214 58 L 190 58 Z" fill="#ffffff"/>
-          <path d="M 200 72 L 240 108 L 260 108 L 220 72 Z" fill="#ffffff"/>
-          <path d="M 260 18 L 260 32 L 280 32 L 280 108 L 294 108 L 294 32 L 314 32 L 314 18 Z" fill="#ffffff"/>
-        </svg>
+        <div class="logo-bg">
+          <img src="logo1.jpg" alt="ART" />
+        </div>
         <span class="logo-text">ART</span>
       </a>
 
@@ -1363,6 +1423,7 @@
 </footer>
 
 <script>
+  // ================== Появление секций при скролле ==================
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -1379,6 +1440,7 @@
     revealObserver.observe(el);
   });
 
+  // ================== Анимация кругов и стрелки ==================
   window.addEventListener('load', () => {
     setTimeout(() => {
       document.querySelectorAll('.circle-deco').forEach(circle => {
@@ -1388,9 +1450,84 @@
     }, 300);
   });
 
+  // ================== STACK CARDS эффект ==================
+  (function() {
+    const sections = document.querySelectorAll('main section');
+    if (!sections.length) return;
+
+    // Отключаем на мобильных и при reduced-motion
+    const isMobile = () => window.innerWidth <= 700;
+    const isReduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (isMobile() || isReduced()) return;
+
+    let currentActive = -1;
+
+    function updateStacks() {
+      if (isMobile() || isReduced()) return;
+
+      const triggerLine = window.innerHeight * 0.3;
+      let activeIndex = -1;
+
+      // Находим активную секцию (пересекает триггерную линию)
+      sections.forEach((section, i) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= triggerLine && rect.bottom > triggerLine) {
+          activeIndex = i;
+        }
+      });
+
+      // Если активной нет — берём последнюю прошедшую
+      if (activeIndex === -1) {
+        sections.forEach((section, i) => {
+          const rect = section.getBoundingClientRect();
+          if (rect.top <= triggerLine) activeIndex = i;
+        });
+      }
+
+      if (activeIndex === currentActive) return;
+      currentActive = activeIndex;
+
+      sections.forEach((section, i) => {
+        if (i === activeIndex) {
+          section.classList.remove('stack-out');
+          section.classList.add('stack-active');
+        } else if (i < activeIndex) {
+          section.classList.add('stack-out');
+          section.classList.remove('stack-active');
+        } else {
+          section.classList.remove('stack-out');
+          section.classList.remove('stack-active');
+        }
+      });
+    }
+
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateStacks();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    window.addEventListener('resize', () => {
+      currentActive = -1;
+      updateStacks();
+    });
+
+    updateStacks();
+  })();
+
+  // ================== PDF ==================
   window.addEventListener('beforeprint', () => {
     document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => {
       el.classList.add('visible');
+    });
+    document.querySelectorAll('main section').forEach(section => {
+      section.classList.remove('stack-out');
     });
   });
 </script>
