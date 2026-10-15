@@ -115,31 +115,37 @@
     z-index: 5;
   }
 
-  /* ЛОГОТИП — без фона, только чёрный лого */
+  /* ЛОГОТИП — чёрный на белой плашке (без фильтров!) */
   .logo-corner {
-    display: flex;
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
     text-decoration: none;
-    transition: transform 0.3s ease, filter 0.3s ease;
-    filter: invert(1) brightness(2);
+    background: var(--white);
+    padding: 12px 20px;
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 25px rgba(0, 51, 255, 0.35);
   }
 
   .logo-corner:hover {
     transform: scale(1.05);
-    filter: invert(1) brightness(2) drop-shadow(0 0 20px rgba(0, 51, 255, 0.7));
+    box-shadow: 0 0 35px rgba(0, 51, 255, 0.7);
   }
 
   .logo-corner .logo-img {
-    height: clamp(48px, 6vw, 68px);
+    height: clamp(42px, 5.5vw, 60px);
     width: auto;
     display: block;
+    /* НИКАКИХ фильтров — логотип остаётся оригинальным (чёрным) */
   }
 
   @media (max-width: 500px) {
-    .logo-corner .logo-img { height: 42px; }
+    .logo-corner { padding: 9px 15px; border-radius: 10px; }
+    .logo-corner .logo-img { height: 38px; }
   }
 
-  /* Кнопка в шапке — теперь просто текст со стрелкой вниз */
+  /* Кнопка "Смотреть" в шапке */
   .btn-top {
     display: inline-flex;
     align-items: center;
