@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="logo1.jpg" alt="ART Logo" width="200" />
+  <img src="logo1.jpg" alt="ART Logo" width="220" />
   
   <h1>STUDENT.BASE</h1>
   
@@ -9,43 +9,43 @@
   Автор и разработчик — <b>Платонов Виктор Артурович</b> (студент, программист).</p>
 
   <a href="https://obladaet-ru.github.io/student-base/">
-    <img src="https://img.shields.io/badge/🌐_Живой_сайт-STUDENT.BASE-0033ff?style=for-the-badge" alt="Live Site" />
+    <img src="https://img.shields.io/badge/Живой_сайт-STUDENT.BASE-0033ff?style=for-the-badge" alt="Live Site" />
   </a>
   
   <br><br>
   
-  <img src="https://img.shields.io/badge/Status-В_разработке-000000?style=for-the-badge" alt="Status" />
-  <img src="https://img.shields.io/badge/Release-2027-0033ff?style=for-the-badge" alt="Release" />
-  <img src="https://img.shields.io/badge/Made_by-IT--ART-000000?style=for-the-badge" alt="Brand" />
+  <img src="https://img.shields.io/badge/Статус-В_разработке-black?style=flat-square" alt="Status" />
+  <img src="https://img.shields.io/badge/Релиз-2027-0033ff?style=flat-square" alt="Release" />
+  <img src="https://img.shields.io/badge/Бренд-IT--ART-black?style=flat-square" alt="Brand" />
 </div>
 
 ---
 
-## 📖 О проекте
+## О проекте
 
 **STUDENT.BASE** — это структурированная база учебных материалов, где каждый студент находит нужную тему за считанные минуты, а не часы.
 
 Собрано в одном месте:
-- 📚 Конспекты лекций
-- 📝 Определения и термины
-- 📊 Схемы и таблицы
-- ❓ Вопросы к экзаменам
-- 🧪 Примеры задач
-- 🔗 Полезные ссылки
+- Конспекты лекций
+- Определения и термины
+- Схемы и таблицы
+- Вопросы к экзаменам
+- Примеры задач
+- Полезные ссылки
 
 ---
 
-## 🎯 Проблема и решение
+## Проблема и решение
 
-| ❌ Проблема | ✅ Наше решение |
-|-------------|-----------------|
+| Проблема | Наше решение |
+| :--- | :--- |
 | Материалы разбросаны по тетрадям, чатам и облакам | Единая база в одном месте |
 | Поиск темы занимает часы | Быстрый поиск и готовые материалы |
 | Нет единой структуры по курсам и предметам | Чёткая навигация: курс → предмет → тема |
 
 ---
 
-## 🗂 Структура базы
+## Структура базы
 
 Материалы организованы по курсам:
 
