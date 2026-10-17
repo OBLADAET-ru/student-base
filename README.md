@@ -6,7 +6,7 @@
   <p><b>Единый справочник по всем предметам, темам и курсам.</b></p>
   
   <p>Проект <b>IT-ART</b>.<br>
-  Автор и разработчик — <b>Платонов Виктор Артурович</b> (студент, программист).</p>
+  Автор и разработчик — <b>A.R.T</b> (студент, программист).</p>
 
   <a href="https://obladaet-ru.github.io/student-base/">
     <img src="https://img.shields.io/badge/Живой_сайт-STUDENT.BASE-0033ff?style=for-the-badge" alt="Live Site" />
