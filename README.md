@@ -5,8 +5,8 @@
   
   <p><b>Единый справочник по всем предметам, темам и курсам.</b></p>
   
-  <p>Проект IT-команды <b>ART</b>.<br>
-  Руководитель — <b>Платонов Виктор Артурович</b> (студент, разработчик, программист).</p>
+  <p>Проект <b>IT-ART</b>.<br>
+  Автор и разработчик — <b>Платонов Виктор Артурович</b> (студент, программист).</p>
 
   <a href="https://obladaet-ru.github.io/student-base/">
     <img src="https://img.shields.io/badge/🌐_Живой_сайт-STUDENT.BASE-0033ff?style=for-the-badge" alt="Live Site" />
@@ -16,7 +16,7 @@
   
   <img src="https://img.shields.io/badge/Status-В_разработке-000000?style=for-the-badge" alt="Status" />
   <img src="https://img.shields.io/badge/Release-2027-0033ff?style=for-the-badge" alt="Release" />
-  <img src="https://img.shields.io/badge/Made_by-IT_команда_ART-000000?style=for-the-badge" alt="Team" />
+  <img src="https://img.shields.io/badge/Made_by-IT--ART-000000?style=for-the-badge" alt="Brand" />
 </div>
 
 ---
@@ -25,7 +25,7 @@
 
 **STUDENT.BASE** — это структурированная база учебных материалов, где каждый студент находит нужную тему за считанные минуты, а не часы.
 
-Мы собираем в одном месте:
+Собрано в одном месте:
 - 📚 Конспекты лекций
 - 📝 Определения и термины
 - 📊 Схемы и таблицы
